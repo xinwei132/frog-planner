@@ -1146,33 +1146,12 @@
                 <!-- ABCDE 任务清单 -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title"><span class="icon">📋</span> ABCDE 任务清单</div>
-                        <span class="card-hint">A=必须做 B=应该做 C=做了好 D=可授权 E=可删除 · 数字越小越优先</span>
+                        <div class="card-title"><span class="icon">📋</span> 任务清单</div>
+                        <span class="card-hint">A=必须做 B=应该做 C=做了好 D=可授权 E=可删 · 数字越小越优先</span>
                     </div>
                     <div class="card-body">
                         <div class="task-input-row">
-                            <select class="priority-select" id="taskPriority">
-                                <optgroup label="A 必须做">
-                                    <option value="A1">A1</option>
-                                    <option value="A2">A2</option>
-                                    <option value="A3">A3</option>
-                                    <option value="A4">A4</option>
-                                </optgroup>
-                                <optgroup label="B 应该做">
-                                    <option value="B1">B1</option>
-                                    <option value="B2">B2</option>
-                                    <option value="B3">B3</option>
-                                    <option value="B4">B4</option>
-                                </optgroup>
-                                <optgroup label="C 做了好">
-                                    <option value="C1">C1</option>
-                                    <option value="C2">C2</option>
-                                    <option value="C3">C3</option>
-                                    <option value="C4">C4</option>
-                                </optgroup>
-                                <option value="D">D</option>
-                                <option value="E">E</option>
-                            </select>
+                            <select class="priority-select" id="taskPriority"></select>
                             <input type="text" class="task-input" id="taskInput" placeholder="输入任务，回车添加..." onkeypress="if(event.key==='Enter')addTask()">
                             <button class="btn-add" onclick="addTask()">添加</button>
                         </div>
@@ -1841,7 +1820,31 @@
             return div.innerHTML;
         }
 
+        // ===== 动态生成优先级选项 A1-A9 ~ E1-E9 =====
+        function initPrioritySelect() {
+            const sel = document.getElementById('taskPriority');
+            const groups = [
+                { letter: 'A', label: 'A 必须做' },
+                { letter: 'B', label: 'B 应该做' },
+                { letter: 'C', label: 'C 做了好' },
+                { letter: 'D', label: 'D 可授权' },
+                { letter: 'E', label: 'E 可删除' }
+            ];
+            groups.forEach(g => {
+                const og = document.createElement('optgroup');
+                og.label = g.label;
+                for (let i = 1; i <= 9; i++) {
+                    const opt = document.createElement('option');
+                    opt.value = g.letter + i;
+                    opt.textContent = g.letter + i;
+                    og.appendChild(opt);
+                }
+                sel.appendChild(og);
+            });
+        }
+
         // ===== 初始化 =====
+        initPrioritySelect();
         loadData();
         renderAll();
 
