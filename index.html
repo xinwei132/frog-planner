@@ -583,14 +583,16 @@
 
         .task-priority {
             flex-shrink: 0;
-            width: 26px;
+            min-width: 26px;
             height: 26px;
+            padding: 0 6px;
             border-radius: 7px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
+            letter-spacing: 0.3px;
         }
 
         .task-priority.A { background: var(--frog-red-soft); color: var(--frog-red); }
@@ -1145,14 +1147,29 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title"><span class="icon">📋</span> ABCDE 任务清单</div>
-                        <span class="card-hint">A=必须做 B=应该做 C=做了好 D=可授权 E=可删除</span>
+                        <span class="card-hint">A=必须做 B=应该做 C=做了好 D=可授权 E=可删除 · 数字越小越优先</span>
                     </div>
                     <div class="card-body">
                         <div class="task-input-row">
                             <select class="priority-select" id="taskPriority">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
+                                <optgroup label="A 必须做">
+                                    <option value="A1">A1</option>
+                                    <option value="A2">A2</option>
+                                    <option value="A3">A3</option>
+                                    <option value="A4">A4</option>
+                                </optgroup>
+                                <optgroup label="B 应该做">
+                                    <option value="B1">B1</option>
+                                    <option value="B2">B2</option>
+                                    <option value="B3">B3</option>
+                                    <option value="B4">B4</option>
+                                </optgroup>
+                                <optgroup label="C 做了好">
+                                    <option value="C1">C1</option>
+                                    <option value="C2">C2</option>
+                                    <option value="C3">C3</option>
+                                    <option value="C4">C4</option>
+                                </optgroup>
                                 <option value="D">D</option>
                                 <option value="E">E</option>
                             </select>
@@ -1491,23 +1508,26 @@
                 return;
             }
 
-            // 按优先级排序
+            // 按优先级排序（A1 < A2 < ... < B1 < B2 < ... < D < E）
             const sorted = [...day.tasks].sort((a, b) => {
-                const order = { A: 1, B: 2, C: 3, D: 4, E: 5 };
-                if (order[a.priority] !== order[b.priority]) return order[a.priority] - order[b.priority];
+                const pa = a.priority;
+                const pb = b.priority;
+                if (pa !== pb) return pa.localeCompare(pb);
                 return a.createdAt - b.createdAt;
             });
 
             list.innerHTML = '';
             sorted.forEach((task) => {
                 const originalIndex = day.tasks.indexOf(task);
-                const item = document.createElement('div');
+                // 提取首字母用于颜色样式
+                const colorKey = task.priority.charAt(0);
+                item = document.createElement('div');
                 item.className = `task-item ${task.done ? 'done' : ''}`;
                 item.innerHTML = `
                     <div class="task-check" onclick="toggleTask(${originalIndex})">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
-                    <div class="task-priority ${task.priority}">${task.priority}</div>
+                    <div class="task-priority ${colorKey}">${task.priority}</div>
                     <div class="task-text" contenteditable="true"
                         onblur="editTask(${originalIndex}, this.innerText)"
                         onkeypress="if(event.key==='Enter'){event.preventDefault();this.blur();}">${escapeHtml(task.text)}</div>
