@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#10b981">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="青蛙计划">
+    <meta name="description" content="融合「吃掉那只青蛙」与「成功人士每日计划」的个人效能工作台">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+    <title>每日计划工作台 · Eat That Frog</title>
+    <style>
+        :root {
+            --bg: #0f1115;
+            --bg-card: #181b21;
+            --bg-card-hover: #1e222a;
+            --border: #2a2f3a;
+            --border-light: #353b47;
+            --text: #e4e6eb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent: #f59e0b;
+            --accent-hover: #fbbf24;
+            --accent-soft: rgba(245, 158, 11, 0.12);
+            --frog-green: #10b981;
+            --frog-green-soft: rgba(16, 185, 129, 0.12);
+            --frog-red: #ef4444;
+            --frog-red-soft: rgba(239, 68, 68, 0.12);
+            --blue: #3b82f6;
+            --blue-soft: rgba(59, 130, 246, 0.12);
+            --purple: #8b5cf6;
+            --purple-soft: rgba(139, 92, 246, 0.12);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+            --transition: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Noto Sans SC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== 滚动条 ===== */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ===== 顶部导航 ===== */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            font-size: 24px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title .sub {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .date-display {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 14px;
+        }
+
+        .date-display .day {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .date-display .meta {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .btn-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .btn-nav:hover {
+            background: var(--bg-card-hover);
+            color: var(--text);
+            border-color: var(--border-light);
+        }
+
+        .btn-nav svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===== 主容器 ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        /* ===== 进度仪表盘 ===== */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .stat-card .value .unit {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .stat-card .progress-bar {
+            margin-top: 10px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .stat-card .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .stat-card.frog .progress-fill { background: var(--frog-green); }
+        .stat-card.task .progress-fill { background: var(--accent); }
+        .stat-card.time .progress-fill { background: var(--blue); }
+        .stat-card.energy .progress-fill { background: var(--purple); }
+
+        /* ===== 网格布局 ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== 卡片基础 ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon {
+            font-size: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* ===== 青蛙任务区 ===== */
+        .frog-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2e 100%);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--frog-green);
+        }
+
+        .frog-card .card-header {
+            background: var(--frog-green-soft);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .frog-card .card-title {
+            color: var(--frog-green);
+        }
+
+        .frog-intro {
+            padding: 12px 20px;
+            background: rgba(16, 185, 129, 0.05);
+            font-size: 13px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .frog-intro .quote {
+            font-style: italic;
+            color: var(--frog-green);
+        }
+
+        .frog-list {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .frog-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .frog-item:hover {
+            border-color: var(--frog-green);
+            background: var(--bg-card-hover);
+        }
+
+        .frog-item.done {
+            opacity: 0.5;
+        }
+
+        .frog-item.done .frog-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .frog-rank {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .frog-rank.r1 { background: var(--frog-red-soft); color: var(--frog-red); border: 2px solid var(--frog-red); }
+        .frog-rank.r2 { background: var(--accent-soft); color: var(--accent); border: 2px solid var(--accent); }
+        .frog-rank.r3 { background: var(--blue-soft); color: var(--blue); border: 2px solid var(--blue); }
+
+        .frog-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .frog-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 500;
+            outline: none;
+            padding: 2px 0;
+        }
+
+        .frog-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .frog-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .frog-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .frog-tag.ugly { background: var(--frog-red-soft); color: var(--frog-red); }
+        .frog-tag.big { background: var(--accent-soft); color: var(--accent); }
+        .frog-tag.value { background: var(--frog-green-soft); color: var(--frog-green); }
+
+        .frog-time-input {
+            width: 50px;
+            background: var(--border);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            color: var(--text);
+            padding: 2px 6px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .frog-check {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 4px;
+        }
+
+        .frog-check:hover {
+            border-color: var(--frog-green);
+        }
+
+        .frog-item.done .frog-check {
+            background: var(--frog-green);
+            border-color: var(--frog-green);
+        }
+
+        .frog-check svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            transition: var(--transition);
+            color: white;
+        }
+
+        .frog-item.done .frog-check svg {
+            opacity: 1;
+        }
+
+        /* ===== 任务清单 ===== */
+        .task-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .task-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .task-input:focus {
+            border-color: var(--accent);
+        }
+
+        .task-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .priority-select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-add {
+            padding: 10px 18px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .btn-add:hover {
+            background: var(--accent-hover);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .task-item:hover {
+            border-color: var(--border-light);
+            background: var(--bg-card-hover);
+        }
+
+        .task-item.done {
+            opacity: 0.4;
+        }
+
+        .task-item.done .task-text {
+            text-decoration: line-through;
+        }
+
+        .task-check {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .task-item.done .task-check {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .task-check svg {
+            width: 12px;
+            height: 12px;
+            color: #000;
+            opacity: 0;
+        }
+
+        .task-item.done .task-check svg {
+            opacity: 1;
+        }
+
+        .task-priority {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .task-priority.A { background: var(--frog-red-soft); color: var(--frog-red); }
+        .task-priority.B { background: var(--accent-soft); color: var(--accent); }
+        .task-priority.C { background: var(--blue-soft); color: var(--blue); }
+        .task-priority.D { background: var(--purple-soft); color: var(--purple); }
+        .task-priority.E { background: var(--border); color: var(--text-muted); }
+
+        .task-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+        }
+
+        .task-text[contenteditable="true"] {
+            background: var(--bg-card-hover);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .task-delete {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .task-item:hover .task-delete {
+            opacity: 1;
+        }
+
+        .task-delete:hover {
+            background: var(--frog-red-soft);
+            color: var(--frog-red);
+        }
+
+        .task-empty {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ===== 时间块 ===== */
+        .timeblocks {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .timeblock {
+            display: grid;
+            grid-template-columns: 70px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .timeblock.morning { background: rgba(245, 158, 11, 0.06); border-left-color: var(--accent); }
+        .timeblock.focus { background: rgba(16, 185, 129, 0.06); border-left-color: var(--frog-green); }
+        .timeblock.afternoon { background: rgba(59, 130, 246, 0.06); border-left-color: var(--blue); }
+        .timeblock.evening { background: rgba(139, 92, 246, 0.06); border-left-color: var(--purple); }
+
+        .timeblock-time {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .timeblock-label {
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .timeblock-label .desc {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .timeblock-input {
+            width: 100%;
+            background: transparent;
+            border: 1px dashed var(--border-light);
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .timeblock-input:focus {
+            border-style: solid;
+            border-color: var(--accent);
+            background: var(--bg);
+        }
+
+        .timeblock-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ===== 晨间仪式 ===== */
+        .ritual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .ritual-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .ritual-item:hover {
+            border-color: var(--border-light);
+            background: var(--bg-card-hover);
+        }
+
+        .ritual-item.done {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .ritual-check {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .ritual-item.done .ritual-check {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+
+        .ritual-text {
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .ritual-item.done .ritual-text {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* ===== 晚间复盘 ===== */
+        .review-section {
+            margin-bottom: 16px;
+        }
+
+        .review-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .review-textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            resize: vertical;
+            min-height: 60px;
+            transition: var(--transition);
+        }
+
+        .review-textarea:focus {
+            border-color: var(--purple);
+        }
+
+        .review-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ===== 日记/感悟 ===== */
+        .journal-textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+            transition: var(--transition);
+        }
+
+        .journal-textarea:focus {
+            border-color: var(--blue);
+        }
+
+        /* ===== 能量追踪 ===== */
+        .energy-track {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .energy-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-width: 60px;
+        }
+
+        .energy-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .energy-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--purple);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .energy-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .energy-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--purple);
+            min-width: 40px;
+            text-align: right;
+        }
+
+        /* ===== 方法论提示 ===== */
+        .tips-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2e 100%);
+        }
+
+        .tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tip-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--accent);
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .tip-item .tip-num {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .tip-item strong {
+            color: var(--text);
+        }
+
+        /* ===== 底部操作 ===== */
+        .footer-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 0;
+        }
+
+        .btn-export, .btn-reset {
+            padding: 10px 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-export:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-reset:hover {
+            border-color: var(--frog-red);
+            color: var(--frog-red);
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 12px 24px;
+            color: var(--text);
+            font-size: 14px;
+            box-shadow: var(--shadow-lg);
+            z-index: 200;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left: 4px solid var(--frog-green); }
+        .toast.info { border-left: 4px solid var(--blue); }
+
+        /* ===== 模态框 ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .modal h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .modal p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .modal-close {
+            margin-top: 16px;
+            padding: 10px 24px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* ===== 动画 ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 600px) {
+            .container { padding: 16px; }
+            .header-inner { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; justify-content: space-between; }
+            .stat-card .value { font-size: 24px; }
+            .timeblock { grid-template-columns: 60px 1fr; }
+            .timeblock-input { grid-column: 1 / -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-left">
+                <span class="logo">🐸</span>
+                <div>
+                    <div class="header-title">每日计划工作台<span class="sub">Eat That Frog</span></div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn-nav" onclick="changeDate(-1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <div class="date-display">
+                    <span class="day" id="currentDate">--</span>
+                    <span class="meta" id="currentWeek">--</span>
+                </div>
+                <button class="btn-nav" onclick="changeDate(1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                <button class="btn-nav" onclick="goToday()" title="回到今天">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    今天
+                </button>
+                <button class="btn-nav" onclick="showGuide()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    使用指南
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主容器 -->
+    <div class="container">
+
+        <!-- 仪表盘 -->
+        <div class="dashboard">
+            <div class="stat-card frog">
+                <div class="label">🐸 青蛙完成</div>
+                <div class="value"><span id="frogDone">0</span><span class="unit">/ 3</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="frogProgress" style="width: 0%"></div></div>
+            </div>
+            <div class="stat-card task">
+                <div class="label">✅ 任务完成</div>
+                <div class="value"><span id="taskDone">0</span><span class="unit">/ <span id="taskTotal">0</span></span></div>
+                <div class="progress-bar"><div class="progress-fill" id="taskProgress" style="width: 0%"></div></div>
+            </div>
+            <div class="stat-card time">
+                <div class="label">⏱ 专注时间</div>
+                <div class="value"><span id="focusTime">0</span><span class="unit">分钟</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="timeProgress" style="width: 0%"></div></div>
+            </div>
+            <div class="stat-card energy">
+                <div class="label">⚡ 精力指数</div>
+                <div class="value"><span id="energyValue">7</span><span class="unit">/ 10</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="energyProgress" style="width: 70%"></div></div>
+            </div>
+        </div>
+
+        <!-- 青蛙任务区 -->
+        <div class="card frog-card">
+            <div class="card-header">
+                <div class="card-title"><span class="icon">🐸</span> 今日三只青蛙</div>
+                <span class="card-hint">先吃掉最丑的那只！</span>
+            </div>
+            <div class="frog-intro">
+                <span class="quote">"如果你每天早上第一件事就是吃掉一只活青蛙，那么这一天里就不会有更糟糕的事情了。"</span>
+                <span style="margin-left: auto; font-size: 12px; color: var(--text-muted);">— 博恩·崔西</span>
+            </div>
+            <div class="frog-list" id="frogList">
+                <!-- 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 主网格 -->
+        <div class="main-grid">
+            <!-- 左列 -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+
+                <!-- ABCDE 任务清单 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">📋</span> ABCDE 任务清单</div>
+                        <span class="card-hint">A=必须做 B=应该做 C=做了好 D=可授权 E=可删除</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="task-input-row">
+                            <select class="priority-select" id="taskPriority">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select>
+                            <input type="text" class="task-input" id="taskInput" placeholder="输入任务，回车添加..." onkeypress="if(event.key==='Enter')addTask()">
+                            <button class="btn-add" onclick="addTask()">添加</button>
+                        </div>
+                        <div class="task-list" id="taskList">
+                            <div class="task-empty">还没有任务，先添加一只青蛙吧 🐸</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 晨间仪式 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">🌅</span> 晨间启动仪式</div>
+                        <span class="card-hint">成功人士的一天从仪式开始</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="ritual-grid" id="ritualGrid">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 方法论提示 -->
+                <div class="card tips-card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">💡</span> 今日提醒</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tips-list">
+                            <div class="tip-item">
+                                <span class="tip-num">1</span>
+                                <span><strong>先吃最丑的青蛙</strong>：面对多项重要任务时，先做最难、最想逃避的那一个。立即行动胜过千言万语。</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-num">2</span>
+                                <span><strong>二八法则</strong>：20%的任务创造80%的价值。抵制诱惑，不被小事引诱，聚焦高杠杆任务。</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-num">3</span>
+                                <span><strong>单任务专注</strong>：每次只专注做一件事，不中途停止，直到百分百完成。自律是终极生产力。</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-num">4</span>
+                                <span><strong>香肠工作法</strong>：大任务分解成小片段，一次只吃一截香肠，降低行动门槛。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右列 -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+
+                <!-- 时间块规划 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">🗓</span> 时间块规划</div>
+                        <span class="card-hint">为重要任务创造整块时间</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeblocks" id="timeblocks">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 精力追踪 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">⚡</span> 精力追踪</div>
+                        <span class="card-hint">顺应生理节律，高效时段做重要的事</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="energy-track">
+                            <span class="energy-label">当前精力</span>
+                            <input type="range" class="energy-slider" id="energySlider" min="1" max="10" value="7" oninput="updateEnergy(this.value)">
+                            <span class="energy-value" id="energyDisplay">7</span>
+                        </div>
+                        <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+                            💡 <strong>精力管理贴士</strong>：上午9-11点是大脑黄金期，安排青蛙任务；下午2-4点精力低谷，处理机械性工作；晚上用于学习与复盘。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 晚间复盘 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">🌙</span> 晚间复盘</div>
+                        <span class="card-hint">每日反思是成长的加速器</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="review-section">
+                            <div class="review-label">🏆 今天最大的成就</div>
+                            <textarea class="review-textarea" id="reviewWin" placeholder="今天完成了什么让你感到自豪的事情？" oninput="saveReview()"></textarea>
+                        </div>
+                        <div class="review-section">
+                            <div class="review-label">🤔 学到了什么</div>
+                            <textarea class="review-textarea" id="reviewLearn" placeholder="今天有什么新的收获或感悟？" oninput="saveReview()"></textarea>
+                        </div>
+                        <div class="review-section">
+                            <div class="review-label">🔧 明天可以改进</div>
+                            <textarea class="review-textarea" id="reviewImprove" placeholder="如果重来一次，你会怎样调整？" oninput="saveReview()"></textarea>
+                        </div>
+                        <div class="review-section" style="margin-bottom: 0;">
+                            <div class="review-label">🙏 今日感恩</div>
+                            <textarea class="review-textarea" id="reviewGratitude" placeholder="感谢什么人或什么事？" oninput="saveReview()"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日记 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">📖</span> 今日手记</div>
+                        <span class="card-hint">自由记录你的想法</span>
+                    </div>
+                    <div class="card-body">
+                        <textarea class="journal-textarea" id="journal" placeholder="写下今天的故事、灵感或任何想说的话..." oninput="saveJournal()"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部操作 -->
+        <div class="footer-actions">
+            <button class="btn-export" onclick="exportData()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                导出今日数据
+            </button>
+            <button class="btn-reset" onclick="confirmReset()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                清空当天数据
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 使用指南模态框 -->
+    <div class="modal-overlay" id="guideModal" onclick="if(event.target===this)closeGuide()">
+        <div class="modal">
+            <h2>🐸 工作台使用指南</h2>
+            <p><strong>这个工作台融合了两大经典方法论：</strong></p>
+            <p><strong>1. 吃掉那只青蛙（博恩·崔西）</strong><br>
+            每天先攻克最难、最重要、最有价值的任务。"青蛙" = 你最想拖延但完成后价值最大的事。</p>
+            <p><strong>2. 成功人士每日计划</strong><br>
+            通过晨间仪式启动一天，时间块管理聚焦要务，晚间复盘持续精进。</p>
+            <p><strong>📋 使用流程：</strong></p>
+            <p><strong>前一晚 / 晨起</strong> → 填写三只青蛙（按难度排序，最丑的放第一）→ 用ABCDE法列出所有任务 → 规划时间块<br>
+            <strong>晨间</strong> → 完成晨间启动仪式 → 直接吃掉第一只青蛙（不要先看邮件/刷手机！）<br>
+            <strong>白天</strong> → 按时间块专注执行 → 单任务推进直到完成<br>
+            <strong>晚间</strong> → 复盘四问 → 记录感恩与手记</p>
+            <p><strong>💡 ABCDE 优先级法：</strong></p>
+            <p>A = 必须做，不做有严重后果（你的青蛙）<br>
+            B = 应该做，但不做后果不严重<br>
+            C = 做了大家都愉快，不做也无妨<br>
+            D = 可以授权给他人<br>
+            E = 完全可以删除</p>
+            <p style="color: var(--text-muted); font-size: 12px;">⚠️ A任务没完成前，绝不要先做B任务。所有数据自动保存在本地浏览器中。</p>
+            <button class="modal-close" onclick="closeGuide()">明白了，开始使用</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== 数据状态 =====
+        let currentDate = new Date();
+        let currentDateStr = formatDate(currentDate);
+        let appData = {};
+
+        // 晨间仪式默认项
+        const defaultRituals = [
+            { id: 'r1', text: '喝水补充水分', done: false },
+            { id: 'r2', text: '运动/拉伸 15分钟', done: false },
+            { id: 'r3', text: '阅读/学习 20分钟', done: false },
+            { id: 'r4', text: '回顾年度目标', done: false },
+            { id: 'r5', text: '今日青蛙可视化', done: false },
+            { id: 'r6', text: '不看手机直到吃完第一只青蛙', done: false }
+        ];
+
+        // 时间块默认
+        const defaultTimeblocks = [
+            { time: '06:00-08:00', label: '晨间仪式', desc: '运动、阅读、规划', type: 'morning', task: '' },
+            { time: '08:00-09:00', label: '深度准备', desc: '回顾计划，准备工作环境', type: 'morning', task: '' },
+            { time: '09:00-11:30', label: '🐸 吃青蛙时间', desc: '精力黄金期，攻克最难任务', type: 'focus', task: '' },
+            { time: '11:30-12:30', label: '收尾与整理', desc: '完成青蛙后的收尾', type: 'focus', task: '' },
+            { time: '12:30-14:00', label: '午餐与休息', desc: '补充能量，短暂午休', type: 'afternoon', task: '' },
+            { time: '14:00-16:00', label: 'B类任务处理', desc: '处理重要但非核心事务', type: 'afternoon', task: '' },
+            { time: '16:00-17:30', label: '沟通与协作', desc: '会议、邮件、回复消息', type: 'afternoon', task: '' },
+            { time: '17:30-18:30', label: 'C类任务与收尾', desc: '清理小事，规划明日', type: 'afternoon', task: '' },
+            { time: '18:30-20:00', label: '晚餐与家庭', desc: '陪伴家人，享受生活', type: 'evening', task: '' },
+            { time: '20:00-21:30', label: '学习与成长', desc: '阅读、技能提升、副业', type: 'evening', task: '' },
+            { time: '21:30-22:00', label: '🌙 晚间复盘', desc: '复盘四问 + 感恩日记', type: 'evening', task: '' },
+            { time: '22:00-06:00', label: '深度睡眠', desc: '保证7-8小时优质睡眠', type: 'evening', task: '' }
+        ];
+
+        // ===== 工具函数 =====
+        function formatDate(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        function getWeekday(d) {
+            const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            return weekdays[d.getDay()];
+        }
+
+        function getDayDiff(d) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const target = new Date(d);
+            target.setHours(0, 0, 0, 0);
+            const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
+            if (diff === 0) return '今天';
+            if (diff === -1) return '昨天';
+            if (diff === 1) return '明天';
+            return diff > 0 ? `${diff}天后` : `${-diff}天前`;
+        }
+
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // ===== 数据持久化 =====
+        function loadData() {
+            const stored = localStorage.getItem('frogPlannerData');
+            if (stored) {
+                appData = JSON.parse(stored);
+            }
+            if (!appData[currentDateStr]) {
+                appData[currentDateStr] = {
+                    frogs: [
+                        { id: 'f1', text: '', done: false, estTime: 60, tags: ['ugly'] },
+                        { id: 'f2', text: '', done: false, estTime: 45, tags: ['big'] },
+                        { id: 'f3', text: '', done: false, estTime: 30, tags: ['value'] }
+                    ],
+                    tasks: [],
+                    rituals: JSON.parse(JSON.stringify(defaultRituals)),
+                    timeblocks: JSON.parse(JSON.stringify(defaultTimeblocks)),
+                    energy: 7,
+                    review: { win: '', learn: '', improve: '', gratitude: '' },
+                    journal: ''
+                };
+                saveData();
+            }
+            // 确保数据完整性
+            const day = appData[currentDateStr];
+            if (!day.frogs || day.frogs.length === 0) {
+                day.frogs = [
+                    { id: 'f1', text: '', done: false, estTime: 60, tags: ['ugly'] },
+                    { id: 'f2', text: '', done: false, estTime: 45, tags: ['big'] },
+                    { id: 'f3', text: '', done: false, estTime: 30, tags: ['value'] }
+                ];
+            }
+            if (!day.rituals || day.rituals.length === 0) {
+                day.rituals = JSON.parse(JSON.stringify(defaultRituals));
+            }
+            if (!day.timeblocks || day.timeblocks.length === 0) {
+                day.timeblocks = JSON.parse(JSON.stringify(defaultTimeblocks));
+            }
+            if (!day.review) {
+                day.review = { win: '', learn: '', improve: '', gratitude: '' };
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('frogPlannerData', JSON.stringify(appData));
+        }
+
+        // ===== 渲染 =====
+        function renderDate() {
+            const dateEl = document.getElementById('currentDate');
+            const weekEl = document.getElementById('currentWeek');
+            const d = currentDate;
+            dateEl.textContent = `${d.getMonth() + 1}月${d.getDate()}日 · ${getWeekday(d)}`;
+            weekEl.textContent = getDayDiff(d);
+        }
+
+        function renderFrogs() {
+            const list = document.getElementById('frogList');
+            const day = appData[currentDateStr];
+            list.innerHTML = '';
+
+            const rankClasses = ['r1', 'r2', 'r3'];
+            const rankLabels = ['1', '2', '3'];
+            const tagLabels = {
+                'ugly': '最丑的青蛙',
+                'big': '大任务',
+                'value': '高价值'
+            };
+
+            day.frogs.forEach((frog, i) => {
+                const item = document.createElement('div');
+                item.className = `frog-item ${frog.done ? 'done' : ''}`;
+                item.innerHTML = `
+                    <div class="frog-rank ${rankClasses[i]}">${rankLabels[i]}</div>
+                    <div class="frog-content">
+                        <input type="text" class="frog-input" value="${escapeHtml(frog.text)}"
+                            placeholder="第${i+1}只青蛙：最重要/最困难/最有价值的任务..."
+                            oninput="updateFrog(${i}, 'text', this.value)"
+                            ${frog.done ? 'disabled' : ''}>
+                        <div class="frog-meta">
+                            <span class="frog-tag ${frog.tags[0]}">${tagLabels[frog.tags[0]] || ''}</span>
+                            <span>预估</span>
+                            <input type="number" class="frog-time-input" value="${frog.estTime}"
+                                oninput="updateFrog(${i}, 'estTime', parseInt(this.value)||0)"
+                                ${frog.done ? 'disabled' : ''}>
+                            <span>分钟</span>
+                            ${frog.done ? '<span style="color: var(--frog-green); font-weight: 600;">✓ 已吃掉!</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="frog-check" onclick="toggleFrog(${i})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            const day = appData[currentDateStr];
+
+            if (day.tasks.length === 0) {
+                list.innerHTML = '<div class="task-empty">还没有任务，先添加一只青蛙吧 🐸</div>';
+                return;
+            }
+
+            // 按优先级排序
+            const sorted = [...day.tasks].sort((a, b) => {
+                const order = { A: 1, B: 2, C: 3, D: 4, E: 5 };
+                if (order[a.priority] !== order[b.priority]) return order[a.priority] - order[b.priority];
+                return a.createdAt - b.createdAt;
+            });
+
+            list.innerHTML = '';
+            sorted.forEach((task) => {
+                const originalIndex = day.tasks.indexOf(task);
+                const item = document.createElement('div');
+                item.className = `task-item ${task.done ? 'done' : ''}`;
+                item.innerHTML = `
+                    <div class="task-check" onclick="toggleTask(${originalIndex})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <div class="task-priority ${task.priority}">${task.priority}</div>
+                    <div class="task-text" contenteditable="true"
+                        onblur="editTask(${originalIndex}, this.innerText)"
+                        onkeypress="if(event.key==='Enter'){event.preventDefault();this.blur();}">${escapeHtml(task.text)}</div>
+                    <button class="task-delete" onclick="deleteTask(${originalIndex})">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                    </button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function renderRituals() {
+            const grid = document.getElementById('ritualGrid');
+            const day = appData[currentDateStr];
+            grid.innerHTML = '';
+
+            day.rituals.forEach((ritual, i) => {
+                const item = document.createElement('div');
+                item.className = `ritual-item ${ritual.done ? 'done' : ''}`;
+                item.onclick = () => toggleRitual(i);
+                item.innerHTML = `
+                    <div class="ritual-check">
+                        ${ritual.done ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                    </div>
+                    <span class="ritual-text">${ritual.text}</span>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        function renderTimeblocks() {
+            const container = document.getElementById('timeblocks');
+            const day = appData[currentDateStr];
+            container.innerHTML = '';
+
+            day.timeblocks.forEach((block, i) => {
+                const el = document.createElement('div');
+                el.className = `timeblock ${block.type}`;
+                el.innerHTML = `
+                    <div class="timeblock-time">${block.time}</div>
+                    <div>
+                        <div class="timeblock-label">${block.label}<div class="desc">${block.desc}</div></div>
+                    </div>
+                    <input type="text" class="timeblock-input" value="${escapeHtml(block.task || '')}"
+                        placeholder="安排具体任务..."
+                        oninput="updateTimeblock(${i}, this.value)">
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function renderReview() {
+            const day = appData[currentDateStr];
+            document.getElementById('reviewWin').value = day.review.win || '';
+            document.getElementById('reviewLearn').value = day.review.learn || '';
+            document.getElementById('reviewImprove').value = day.review.improve || '';
+            document.getElementById('reviewGratitude').value = day.review.gratitude || '';
+        }
+
+        function renderJournal() {
+            document.getElementById('journal').value = appData[currentDateStr].journal || '';
+        }
+
+        function renderEnergy() {
+            const day = appData[currentDateStr];
+            document.getElementById('energySlider').value = day.energy;
+            document.getElementById('energyDisplay').textContent = day.energy;
+            updateDashboard();
+        }
+
+        function renderDashboard() {
+            const day = appData[currentDateStr];
+
+            // 青蛙完成
+            const frogDone = day.frogs.filter(f => f.done && f.text).length;
+            const frogTotal = day.frogs.filter(f => f.text).length || 3;
+            document.getElementById('frogDone').textContent = frogDone;
+            document.getElementById('frogProgress').style.width = `${(frogDone / 3) * 100}%`;
+
+            // 任务完成
+            const taskDone = day.tasks.filter(t => t.done).length;
+            const taskTotal = day.tasks.length;
+            document.getElementById('taskDone').textContent = taskDone;
+            document.getElementById('taskTotal').textContent = taskTotal;
+            document.getElementById('taskProgress').style.width = taskTotal > 0 ? `${(taskDone / taskTotal) * 100}%` : '0%';
+
+            // 专注时间（青蛙预估时间之和）
+            const focusTime = day.frogs.filter(f => f.done && f.text).reduce((sum, f) => sum + (f.estTime || 0), 0);
+            document.getElementById('focusTime').textContent = focusTime;
+            const totalFocus = day.frogs.filter(f => f.text).reduce((sum, f) => sum + (f.estTime || 0), 0);
+            document.getElementById('timeProgress').style.width = totalFocus > 0 ? `${(focusTime / totalFocus) * 100}%` : '0%';
+
+            // 精力
+            document.getElementById('energyValue').textContent = day.energy;
+            document.getElementById('energyProgress').style.width = `${day.energy * 10}%`;
+        }
+
+        function renderAll() {
+            renderDate();
+            renderFrogs();
+            renderTasks();
+            renderRituals();
+            renderTimeblocks();
+            renderReview();
+            renderJournal();
+            renderEnergy();
+            renderDashboard();
+        }
+
+        function updateDashboard() {
+            renderDashboard();
+        }
+
+        // ===== 交互函数 =====
+        function updateFrog(index, field, value) {
+            appData[currentDateStr].frogs[index][field] = value;
+            saveData();
+            if (field === 'estTime') updateDashboard();
+        }
+
+        function toggleFrog(index) {
+            const frog = appData[currentDateStr].frogs[index];
+            if (!frog.text) {
+                showToast('请先填写青蛙任务内容', 'info');
+                return;
+            }
+            frog.done = !frog.done;
+            saveData();
+            renderFrogs();
+            renderDashboard();
+            if (frog.done) {
+                showToast(`🐸 第${index + 1}只青蛙已吃掉！干得漂亮！`, 'success');
+            }
+        }
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const priority = document.getElementById('taskPriority').value;
+            const text = input.value.trim();
+            if (!text) return;
+
+            appData[currentDateStr].tasks.push({
+                id: Date.now(),
+                text: text,
+                priority: priority,
+                done: false,
+                createdAt: Date.now()
+            });
+            input.value = '';
+            saveData();
+            renderTasks();
+            renderDashboard();
+            showToast('任务已添加', 'success');
+        }
+
+        function toggleTask(index) {
+            appData[currentDateStr].tasks[index].done = !appData[currentDateStr].tasks[index].done;
+            saveData();
+            renderTasks();
+            renderDashboard();
+        }
+
+        function editTask(index, newText) {
+            appData[currentDateStr].tasks[index].text = newText.trim();
+            saveData();
+            renderTasks();
+        }
+
+        function deleteTask(index) {
+            appData[currentDateStr].tasks.splice(index, 1);
+            saveData();
+            renderTasks();
+            renderDashboard();
+        }
+
+        function toggleRitual(index) {
+            appData[currentDateStr].rituals[index].done = !appData[currentDateStr].rituals[index].done;
+            saveData();
+            renderRituals();
+        }
+
+        function updateTimeblock(index, value) {
+            appData[currentDateStr].timeblocks[index].task = value;
+            saveData();
+        }
+
+        function updateEnergy(value) {
+            appData[currentDateStr].energy = parseInt(value);
+            document.getElementById('energyDisplay').textContent = value;
+            saveData();
+            updateDashboard();
+        }
+
+        function saveReview() {
+            appData[currentDateStr].review = {
+                win: document.getElementById('reviewWin').value,
+                learn: document.getElementById('reviewLearn').value,
+                improve: document.getElementById('reviewImprove').value,
+                gratitude: document.getElementById('reviewGratitude').value
+            };
+            saveData();
+        }
+
+        function saveJournal() {
+            appData[currentDateStr].journal = document.getElementById('journal').value;
+            saveData();
+        }
+
+        // ===== 日期切换 =====
+        function changeDate(delta) {
+            currentDate.setDate(currentDate.getDate() + delta);
+            currentDateStr = formatDate(currentDate);
+            loadData();
+            renderAll();
+        }
+
+        function goToday() {
+            currentDate = new Date();
+            currentDateStr = formatDate(currentDate);
+            loadData();
+            renderAll();
+            showToast('已回到今天', 'info');
+        }
+
+        // ===== 导出 =====
+        function exportData() {
+            const day = appData[currentDateStr];
+            let content = `═══════════════════════════════════════
+  每日计划 · ${currentDateStr} ${getWeekday(currentDate)}
+  🐸 Eat That Frog 每日工作台
+═══════════════════════════════════════
+
+━━━ 🐸 今日三只青蛙 ━━━
+`;
+
+            day.frogs.forEach((f, i) => {
+                const status = f.done ? '[✓ 已吃掉]' : '[  未完成 ]';
+                content += `\n  ${i + 1}. ${status} ${f.text || '(未填写)'}\n     预估时间: ${f.estTime}分钟\n`;
+            });
+
+            content += `\n━━━ 📋 ABCDE 任务清单 ━━━\n`;
+            if (day.tasks.length === 0) {
+                content += '\n  (暂无任务)\n';
+            } else {
+                day.tasks.forEach((t, i) => {
+                    const status = t.done ? '[✓]' : '[ ]';
+                    content += `\n  ${status} [${t.priority}] ${t.text}\n`;
+                });
+            }
+
+            content += `\n━━━ 🌅 晨间仪式 ━━━\n`;
+            day.rituals.forEach(r => {
+                const status = r.done ? '[✓]' : '[ ]';
+                content += `  ${status} ${r.text}\n`;
+            });
+
+            content += `\n━━━ 🗓 时间块规划 ━━━\n`;
+            day.timeblocks.forEach(b => {
+                const task = b.task ? ` → ${b.task}` : '';
+                content += `  ${b.time}  ${b.label}${task}\n`;
+            });
+
+            content += `\n━━━ ⚡ 精力指数: ${day.energy}/10 ━━━\n`;
+
+            content += `\n━━━ 🌙 晚间复盘 ━━━\n`;
+            content += `\n  🏆 今天最大的成就:\n  ${day.review.win || '(待填写)'}\n`;
+            content += `\n  🤔 学到了什么:\n  ${day.review.learn || '(待填写)'}\n`;
+            content += `\n  🔧 明天可以改进:\n  ${day.review.improve || '(待填写)'}\n`;
+            content += `\n  🙏 今日感恩:\n  ${day.review.gratitude || '(待填写)'}\n`;
+
+            content += `\n━━━ 📖 今日手记 ━━━\n`;
+            content += `  ${day.review.journal || '(待填写)'}\n`;
+
+            content += `\n═══════════════════════════════════════\n  "如果你每天早上第一件事就是吃掉一只活青蛙，\n   那么这一天里就不会有更糟糕的事情了。"\n   — 博恩·崔西\n═══════════════════════════════════════\n`;
+
+            // 下载
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `每日计划_${currentDateStr}.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showToast('数据已导出', 'success');
+        }
+
+        // ===== 清空确认 =====
+        function confirmReset() {
+            if (confirm(`确定要清空 ${currentDateStr} 的所有数据吗？此操作不可撤销！`)) {
+                delete appData[currentDateStr];
+                saveData();
+                loadData();
+                renderAll();
+                showToast('当天数据已清空', 'info');
+            }
+        }
+
+        // ===== 使用指南 =====
+        function showGuide() {
+            document.getElementById('guideModal').classList.add('show');
+        }
+
+        function closeGuide() {
+            document.getElementById('guideModal').classList.remove('show');
+        }
+
+        // ===== HTML 转义 =====
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ===== 初始化 =====
+        loadData();
+        renderAll();
+
+        // 首次使用显示指南
+        if (!localStorage.getItem('frogPlannerVisited')) {
+            setTimeout(() => {
+                showGuide();
+                localStorage.setItem('frogPlannerVisited', 'true');
+            }, 500);
+        }
+
+        // ===== 注册 Service Worker（PWA 支持）=====
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('[PWA] SW registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.warn('[PWA] SW registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
