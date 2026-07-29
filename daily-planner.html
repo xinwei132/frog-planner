@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#10b981">
+    <meta name="theme-color" content="#f2f3f7">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="青蛙计划">
     <meta name="description" content="融合「吃掉那只青蛙」与「成功人士每日计划」的个人效能工作台">
     <link rel="manifest" href="manifest.json">
@@ -15,37 +15,37 @@
     <title>每日计划工作台 · Eat That Frog</title>
     <style>
         :root {
-            /* iPhone 17 Pro 深色玻璃风格 */
-            --bg: #000000;
-            --bg-elevated: #121214;
-            --bg-card: rgba(28, 28, 30, 0.72);
-            --bg-card-solid: #1c1c1e;
-            --bg-card-hover: rgba(44, 44, 46, 0.82);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-light: rgba(255, 255, 255, 0.14);
-            --text: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.45);
+            /* iPhone 17 Pro 浅色模式 */
+            --bg: #f2f3f7;
+            --bg-elevated: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.72);
+            --bg-card-solid: #ffffff;
+            --bg-card-hover: rgba(255, 255, 255, 0.88);
+            --border: rgba(0, 0, 0, 0.08);
+            --border-light: rgba(0, 0, 0, 0.12);
+            --text: #000000;
+            --text-secondary: rgba(0, 0, 0, 0.6);
+            --text-muted: rgba(0, 0, 0, 0.35);
             --accent: #0a84ff;
-            --accent-soft: rgba(10, 132, 255, 0.15);
-            --accent-hover: #409cff;
-            --frog-green: #30d158;
+            --accent-soft: rgba(10, 132, 255, 0.1);
+            --accent-hover: #0071e3;
+            --frog-green: #248a3d;
             --frog-green-soft: rgba(48, 209, 88, 0.12);
-            --frog-red: #ff453a;
-            --frog-red-soft: rgba(255, 69, 58, 0.15);
-            --blue: #64d2ff;
-            --blue-soft: rgba(100, 210, 255, 0.12);
-            --purple: #bf5af2;
-            --purple-soft: rgba(191, 90, 242, 0.12);
-            --orange: #ff9f0a;
-            --orange-soft: rgba(255, 159, 10, 0.12);
+            --frog-red: #ff3b30;
+            --frog-red-soft: rgba(255, 59, 48, 0.1);
+            --blue: #0a84ff;
+            --blue-soft: rgba(10, 132, 255, 0.1);
+            --purple: #af52de;
+            --purple-soft: rgba(175, 82, 222, 0.1);
+            --orange: #ff9500;
+            --orange-soft: rgba(255, 149, 0, 0.1);
             --titanium: #8e8e93;
             --radius: 24px;
             --radius-md: 18px;
             --radius-sm: 14px;
             --radius-xs: 10px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.35);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.05);
             --transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
             --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', sans-serif;
         }
@@ -60,13 +60,13 @@
         body {
             font-family: var(--font);
             background: var(--bg);
-            color: var(--text);
+            color: #ffffff;
             line-height: 1.5;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             background-image: 
-                radial-gradient(ellipse at 20% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 45%),
-                radial-gradient(ellipse at 80% 100%, rgba(191, 90, 242, 0.08) 0%, transparent 40%);
+                radial-gradient(ellipse at 20% 0%, rgba(10, 132, 255, 0.06) 0%, transparent 45%),
+                radial-gradient(ellipse at 80% 100%, rgba(175, 82, 222, 0.04) 0%, transparent 40%);
             background-attachment: fixed;
         }
 
@@ -83,7 +83,7 @@
             z-index: 100;
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(242, 243, 247, 0.72);
             border-bottom: 1px solid var(--border);
         }
 
@@ -106,7 +106,7 @@
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            background: linear-gradient(180deg, #2c2c2e 0%, #1c1c1e 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #f0f1f6 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -131,7 +131,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
             padding: 6px 8px;
             border-radius: 100px;
             backdrop-filter: blur(20px);
@@ -150,7 +150,7 @@
 
         .date-display .day {
             font-weight: 600;
-            color: var(--text);
+            color: #ffffff;
             font-size: 13px;
         }
 
@@ -166,7 +166,7 @@
             justify-content: center;
             width: 34px;
             height: 34px;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.04);
             border: none;
             border-radius: 50%;
             color: var(--text-secondary);
@@ -176,8 +176,8 @@
         }
 
         .btn-nav:hover {
-            background: rgba(255, 255, 255, 0.14);
-            color: var(--text);
+            background: rgba(0, 0, 0, 0.08);
+            color: #ffffff;
         }
 
         .btn-nav:active {
@@ -214,7 +214,7 @@
         }
 
         .stat-card {
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid var(--border);
@@ -256,7 +256,7 @@
         .stat-card .progress-bar {
             margin-top: 12px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 2px;
             overflow: hidden;
         }
@@ -288,7 +288,7 @@
 
         /* ===== 卡片基础 ===== */
         .card {
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid var(--border);
@@ -304,7 +304,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(0, 0, 0, 0.015);
         }
 
         .card-title {
@@ -333,19 +333,19 @@
         /* ===== 青蛙任务区 ===== */
         .frog-card {
             grid-column: 1 / -1;
-            background: linear-gradient(180deg, rgba(28, 28, 30, 0.85) 0%, rgba(28, 28, 30, 0.65) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.65) 100%);
             border: 1px solid var(--border);
-            border-top: 1px solid rgba(48, 209, 88, 0.4);
+            border-top: 2px solid rgba(48, 209, 88, 0.5);
         }
 
         .frog-card .card-header {
-            background: rgba(48, 209, 88, 0.08);
+            background: rgba(48, 209, 88, 0.06);
             border-bottom: 1px solid rgba(48, 209, 88, 0.15);
         }
 
         .frog-intro {
             padding: 14px 22px;
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.02);
             font-size: 13px;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border);
@@ -371,7 +371,7 @@
             align-items: flex-start;
             gap: 14px;
             padding: 18px 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             transition: var(--transition);
@@ -379,14 +379,14 @@
         }
 
         .frog-item:hover {
-            background: rgba(255, 255, 255, 0.09);
+            background: rgba(0, 0, 0, 0.05);
             border-color: var(--border-light);
             transform: scale(1.005);
         }
 
         .frog-item.done {
-            background: rgba(48, 209, 88, 0.08);
-            border-color: rgba(48, 209, 88, 0.25);
+            background: rgba(48, 209, 88, 0.06);
+            border-color: rgba(48, 209, 88, 0.2);
             opacity: 0.85;
         }
 
@@ -420,7 +420,7 @@
             width: 100%;
             background: transparent;
             border: none;
-            color: var(--text);
+            color: #ffffff;
             font-size: 16px;
             font-weight: 500;
             outline: none;
@@ -458,10 +458,10 @@
 
         .frog-time-input {
             width: 50px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
             border: 1px solid var(--border);
             border-radius: 6px;
-            color: var(--text);
+            color: #ffffff;
             padding: 3px 6px;
             font-size: 12px;
             text-align: center;
@@ -501,7 +501,7 @@
             height: 14px;
             opacity: 0;
             transition: var(--transition);
-            color: var(--bg);
+            color: #ffffff;
         }
 
         .frog-item.done .frog-check svg {
@@ -517,11 +517,11 @@
 
         .task-input {
             flex: 1;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.04);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px 16px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 15px;
             outline: none;
             transition: var(--transition);
@@ -530,7 +530,7 @@
 
         .task-input:focus {
             border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .task-input::placeholder {
@@ -538,11 +538,11 @@
         }
 
         .priority-select {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.04);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px 14px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 14px;
             cursor: pointer;
             outline: none;
@@ -553,7 +553,7 @@
         .btn-add {
             padding: 12px 22px;
             background: var(--accent);
-            color: var(--text);
+            color: #ffffff;
             border: none;
             border-radius: 12px;
             font-weight: 600;
@@ -583,14 +583,14 @@
             align-items: center;
             gap: 12px;
             padding: 12px 14px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border);
             border-radius: 14px;
             transition: var(--transition);
         }
 
         .task-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
             border-color: var(--border-light);
         }
 
@@ -623,7 +623,7 @@
         .task-check svg {
             width: 12px;
             height: 12px;
-            color: var(--text);
+            color: #ffffff;
             opacity: 0;
         }
 
@@ -646,18 +646,18 @@
         .task-priority.A { background: var(--frog-red-soft); color: var(--frog-red); }
         .task-priority.B { background: var(--orange-soft); color: var(--orange); }
         .task-priority.C { background: var(--blue-soft); color: var(--blue); }
-        .task-priority.D { background: rgba(255, 255, 255, 0.1); color: var(--titanium); }
-        .task-priority.E { background: rgba(255, 255, 255, 0.06); color: var(--text-muted); }
+        .task-priority.D { background: rgba(0, 0, 0, 0.05); color: var(--titanium); }
+        .task-priority.E { background: rgba(0, 0, 0, 0.04); color: var(--text-muted); }
 
         .task-text {
             flex: 1;
             font-size: 15px;
-            color: var(--text);
+            color: #ffffff;
             outline: none;
         }
 
         .task-text[contenteditable="true"] {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
             padding: 2px 8px;
             border-radius: 6px;
         }
@@ -709,11 +709,11 @@
             padding: 12px;
             border-radius: 14px;
             transition: var(--transition);
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.02);
         }
 
         .timeblock:hover {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(0, 0, 0, 0.04);
         }
 
         .timeblock-time {
@@ -726,7 +726,7 @@
 
         .timeblock-label {
             font-size: 14px;
-            color: var(--text);
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -738,12 +738,12 @@
 
         .timeblock-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.04);
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 6px 10px;
             margin-top: 6px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 13px;
             outline: none;
             transition: var(--transition);
@@ -753,7 +753,7 @@
 
         .timeblock-input:focus {
             border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .timeblock-input::placeholder {
@@ -772,7 +772,7 @@
             align-items: center;
             gap: 10px;
             padding: 14px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border);
             border-radius: 14px;
             cursor: pointer;
@@ -780,13 +780,13 @@
         }
 
         .ritual-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
             border-color: var(--border-light);
         }
 
         .ritual-item.done {
-            background: rgba(48, 209, 88, 0.1);
-            border-color: rgba(48, 209, 88, 0.3);
+            background: rgba(48, 209, 88, 0.07);
+            border-color: rgba(48, 209, 88, 0.2);
         }
 
         .ritual-item.done .ritual-text {
@@ -814,7 +814,7 @@
         .ritual-check svg {
             width: 12px;
             height: 12px;
-            color: var(--bg);
+            color: #ffffff;
             opacity: 0;
         }
 
@@ -824,7 +824,7 @@
 
         .ritual-text {
             font-size: 14px;
-            color: var(--text);
+            color: #ffffff;
         }
 
         /* ===== 晚间复盘 ===== */
@@ -845,11 +845,11 @@
 
         .review-textarea {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 14px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 15px;
             font-family: inherit;
             outline: none;
@@ -861,7 +861,7 @@
 
         .review-textarea:focus {
             border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
         }
 
         .review-textarea::placeholder {
@@ -871,11 +871,11 @@
         /* ===== 日记/感悟 ===== */
         .journal-textarea {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 16px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 15px;
             font-family: inherit;
             outline: none;
@@ -887,7 +887,7 @@
 
         .journal-textarea:focus {
             border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.6);
         }
 
         /* ===== 能量追踪 ===== */
@@ -896,7 +896,7 @@
             align-items: center;
             gap: 16px;
             padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border);
             border-radius: 14px;
         }
@@ -912,7 +912,7 @@
             flex: 1;
             -webkit-appearance: none;
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 3px;
             outline: none;
         }
@@ -949,7 +949,7 @@
 
         /* ===== 方法论提示 ===== */
         .tips-card {
-            background: linear-gradient(180deg, rgba(28, 28, 30, 0.8) 0%, rgba(28, 28, 30, 0.6) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
         }
 
         .tips-list {
@@ -962,7 +962,7 @@
             display: flex;
             gap: 12px;
             padding: 14px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border-radius: 14px;
             border-left: 3px solid var(--accent);
             font-size: 13px;
@@ -985,7 +985,7 @@
         }
 
         .tip-item strong {
-            color: var(--text);
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -1001,7 +1001,7 @@
             padding: 12px 24px;
             border: 1px solid var(--border);
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.04);
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 14px;
@@ -1032,11 +1032,11 @@
             bottom: 28px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(44, 44, 46, 0.92);
+            background: rgba(30, 30, 32, 0.92);
             backdrop-filter: blur(20px);
             border-radius: 100px;
             padding: 12px 24px;
-            color: var(--text);
+            color: #ffffff;
             font-size: 14px;
             box-shadow: var(--shadow);
             z-index: 200;
@@ -1052,14 +1052,14 @@
             opacity: 1;
         }
 
-        .toast.success { background: rgba(48, 209, 88, 0.18); color: var(--success); border-color: rgba(48, 209, 88, 0.3); }
+        .toast.success { background: rgba(48, 209, 88, 0.18); color: var(--success); border-color: rgba(48, 209, 88, 0.2); }
         .toast.info { background: rgba(10, 132, 255, 0.15); color: var(--accent); border-color: rgba(10, 132, 255, 0.25); }
 
         /* ===== 模态框 ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
             z-index: 300;
             display: none;
@@ -1073,7 +1073,7 @@
         }
 
         .modal {
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -1088,7 +1088,7 @@
         .modal h2 {
             font-size: 22px;
             margin-bottom: 18px;
-            color: var(--text);
+            color: #ffffff;
             font-weight: 700;
             letter-spacing: -0.3px;
         }
@@ -1101,7 +1101,7 @@
         }
 
         .modal p strong {
-            color: var(--text);
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -1109,7 +1109,7 @@
             margin-top: 20px;
             padding: 12px 28px;
             background: var(--accent);
-            color: var(--text);
+            color: #ffffff;
             border: none;
             border-radius: 12px;
             font-weight: 600;
