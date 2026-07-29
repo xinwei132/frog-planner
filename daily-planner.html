@@ -1332,20 +1332,21 @@
             { id: 'r6', text: '不看手机直到吃完第一只青蛙', done: false }
         ];
 
-        // 时间块默认
+        // 时间块默认（6:30起床 - 22:30睡觉）
         const defaultTimeblocks = [
-            { time: '06:00-08:00', label: '晨间仪式', desc: '运动、阅读、规划', type: 'morning', task: '' },
-            { time: '08:00-09:00', label: '深度准备', desc: '回顾计划，准备工作环境', type: 'morning', task: '' },
+            { time: '06:30-07:30', label: '晨间仪式', desc: '喝水、运动、阅读', type: 'morning', task: '' },
+            { time: '07:30-08:30', label: '早餐与规划', desc: '吃早餐，回顾今日青蛙', type: 'morning', task: '' },
+            { time: '08:30-09:00', label: '深度准备', desc: '准备工作环境，不看手机', type: 'morning', task: '' },
             { time: '09:00-11:30', label: '🐸 吃青蛙时间', desc: '精力黄金期，攻克最难任务', type: 'focus', task: '' },
             { time: '11:30-12:30', label: '收尾与整理', desc: '完成青蛙后的收尾', type: 'focus', task: '' },
-            { time: '12:30-14:00', label: '午餐与休息', desc: '补充能量，短暂午休', type: 'afternoon', task: '' },
-            { time: '14:00-16:00', label: 'B类任务处理', desc: '处理重要但非核心事务', type: 'afternoon', task: '' },
-            { time: '16:00-17:30', label: '沟通与协作', desc: '会议、邮件、回复消息', type: 'afternoon', task: '' },
+            { time: '12:30-13:30', label: '午餐与休息', desc: '补充能量，短暂午休', type: 'afternoon', task: '' },
+            { time: '13:30-15:30', label: 'B类任务处理', desc: '处理重要但非核心事务', type: 'afternoon', task: '' },
+            { time: '15:30-17:30', label: '沟通与协作', desc: '会议、邮件、回复消息', type: 'afternoon', task: '' },
             { time: '17:30-18:30', label: 'C类任务与收尾', desc: '清理小事，规划明日', type: 'afternoon', task: '' },
             { time: '18:30-20:00', label: '晚餐与家庭', desc: '陪伴家人，享受生活', type: 'evening', task: '' },
             { time: '20:00-21:30', label: '学习与成长', desc: '阅读、技能提升、副业', type: 'evening', task: '' },
-            { time: '21:30-22:00', label: '🌙 晚间复盘', desc: '复盘四问 + 感恩日记', type: 'evening', task: '' },
-            { time: '22:00-06:00', label: '深度睡眠', desc: '保证7-8小时优质睡眠', type: 'evening', task: '' }
+            { time: '21:30-22:30', label: '🌙 晚间复盘', desc: '复盘四问 + 感恩日记', type: 'evening', task: '' },
+            { time: '22:30-06:30', label: '深度睡眠', desc: '保证8小时优质睡眠', type: 'evening', task: '' }
         ];
 
         // ===== 工具函数 =====
