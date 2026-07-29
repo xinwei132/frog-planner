@@ -15,30 +15,30 @@
     <title>每日计划工作台 · Eat That Frog</title>
     <style>
         :root {
-            --bg: #0f1115;
-            --bg-card: #181b21;
-            --bg-card-hover: #1e222a;
-            --border: #2a2f3a;
-            --border-light: #353b47;
-            --text: #e4e6eb;
-            --text-secondary: #9ca3af;
-            --text-muted: #6b7280;
-            --accent: #f59e0b;
-            --accent-hover: #fbbf24;
-            --accent-soft: rgba(245, 158, 11, 0.12);
-            --frog-green: #10b981;
-            --frog-green-soft: rgba(16, 185, 129, 0.12);
-            --frog-red: #ef4444;
-            --frog-red-soft: rgba(239, 68, 68, 0.12);
-            --blue: #3b82f6;
-            --blue-soft: rgba(59, 130, 246, 0.12);
-            --purple: #8b5cf6;
-            --purple-soft: rgba(139, 92, 246, 0.12);
-            --radius: 12px;
-            --radius-sm: 8px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
-            --transition: all 0.2s ease;
+            /* MUJI / 优衣库 木质简约色系 */
+            --paper: #f7f4ef;
+            --paper-warm: #f2eee7;
+            --paper-deep: #ebe5dc;
+            --wood: #c4a77d;
+            --wood-light: #d9c7a8;
+            --wood-deep: #a68b5b;
+            --ink: #3d3229;
+            --ink-light: #6b5e52;
+            --ink-muted: #9c8f80;
+            --line: #e0d8cc;
+            --line-dark: #d4c8b8;
+            --white: #ffffff;
+            --accent: #8b6914;
+            --accent-soft: rgba(139, 105, 20, 0.08);
+            --success: #5a7a4a;
+            --success-soft: rgba(90, 122, 74, 0.08);
+            --warm-gray: #8a7f72;
+            --radius: 2px;
+            --radius-lg: 4px;
+            --shadow: 0 1px 2px rgba(61, 50, 41, 0.04);
+            --shadow-soft: 0 2px 8px rgba(61, 50, 41, 0.06);
+            --transition: all 0.25s ease;
+            --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Noto Sans SC', sans-serif;
         }
 
         * {
@@ -48,32 +48,32 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Noto Sans SC', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            font-family: var(--font);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.7;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== 滚动条 ===== */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        /* 极简滚动条 */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--line-dark); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--wood); }
 
         /* ===== 顶部导航 ===== */
         .header {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
+            background: var(--paper-warm);
+            border-bottom: 1px solid var(--line);
+            padding: 18px 24px;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(12px);
         }
 
         .header-inner {
-            max-width: 1400px;
+            max-width: 1280px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -85,150 +85,161 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
         }
 
         .logo {
-            font-size: 24px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--paper-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 1px solid var(--line-dark);
         }
 
         .header-title {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            color: var(--ink);
         }
 
         .header-title .sub {
-            color: var(--text-muted);
+            color: var(--ink-muted);
             font-weight: 400;
-            font-size: 14px;
+            font-size: 13px;
             margin-left: 8px;
+            letter-spacing: 0.3px;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
         }
 
         .date-display {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            font-size: 14px;
+            font-size: 13px;
+            margin-right: 8px;
         }
 
         .date-display .day {
-            font-weight: 600;
-            color: var(--text);
+            font-weight: 500;
+            color: var(--ink);
+            letter-spacing: 0.5px;
         }
 
         .date-display .meta {
-            color: var(--text-muted);
-            font-size: 12px;
+            color: var(--ink-muted);
+            font-size: 11px;
         }
 
         .btn-nav {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
-            padding: 8px 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            color: var(--ink-light);
             cursor: pointer;
             font-size: 13px;
             transition: var(--transition);
         }
 
         .btn-nav:hover {
-            background: var(--bg-card-hover);
-            color: var(--text);
-            border-color: var(--border-light);
+            background: var(--white);
+            border-color: var(--wood);
+            color: var(--ink);
         }
 
         .btn-nav svg {
             width: 16px;
             height: 16px;
+            stroke-width: 1.5;
         }
 
         /* ===== 主容器 ===== */
         .container {
-            max-width: 1400px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 32px 24px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 32px;
         }
 
         /* ===== 进度仪表盘 ===== */
         .dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
         }
 
         .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
+            background: var(--paper-warm);
+            padding: 24px 20px;
             transition: var(--transition);
         }
 
         .stat-card:hover {
-            border-color: var(--border-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            background: var(--white);
         }
 
         .stat-card .label {
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 11px;
+            color: var(--ink-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            font-weight: 500;
         }
 
         .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
+            font-size: 28px;
+            font-weight: 300;
             line-height: 1.2;
+            color: var(--ink);
         }
 
         .stat-card .value .unit {
-            font-size: 14px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: var(--ink-muted);
             font-weight: 400;
             margin-left: 4px;
         }
 
         .stat-card .progress-bar {
-            margin-top: 10px;
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
+            margin-top: 12px;
+            height: 3px;
+            background: var(--line);
+            border-radius: 0;
             overflow: hidden;
         }
 
         .stat-card .progress-fill {
             height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
+            background: var(--wood-deep);
+            transition: width 0.6s ease;
         }
-
-        .stat-card.frog .progress-fill { background: var(--frog-green); }
-        .stat-card.task .progress-fill { background: var(--accent); }
-        .stat-card.time .progress-fill { background: var(--blue); }
-        .stat-card.energy .progress-fill { background: var(--purple); }
 
         /* ===== 网格布局 ===== */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
+            gap: 32px;
+            align-items: start;
         }
 
         @media (max-width: 900px) {
@@ -239,125 +250,133 @@
 
         /* ===== 卡片基础 ===== */
         .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: var(--paper-warm);
+            border: 1px solid var(--line);
             border-radius: var(--radius);
             overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
         .card-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--line);
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
+            background: var(--paper);
         }
 
         .card-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            letter-spacing: 0.5px;
+            color: var(--ink);
         }
 
         .card-title .icon {
-            font-size: 20px;
+            font-size: 16px;
+            opacity: 0.7;
         }
 
         .card-body {
-            padding: 20px;
+            padding: 24px;
+            background: var(--paper-warm);
         }
 
         .card-hint {
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 11px;
+            color: var(--ink-muted);
             font-weight: 400;
+            letter-spacing: 0.3px;
         }
 
         /* ===== 青蛙任务区 ===== */
         .frog-card {
             grid-column: 1 / -1;
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2e 100%);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--frog-green);
+            background: var(--paper-warm);
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--wood-deep);
         }
 
         .frog-card .card-header {
-            background: var(--frog-green-soft);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .frog-card .card-title {
-            color: var(--frog-green);
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
         }
 
         .frog-intro {
-            padding: 12px 20px;
-            background: rgba(16, 185, 129, 0.05);
-            font-size: 13px;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            background: var(--paper);
+            font-size: 12px;
+            color: var(--ink-light);
+            border-bottom: 1px solid var(--line);
             display: flex;
             align-items: center;
             gap: 8px;
+            font-style: italic;
         }
 
         .frog-intro .quote {
-            font-style: italic;
-            color: var(--frog-green);
+            color: var(--wood-deep);
+            font-style: normal;
+            font-weight: 500;
         }
 
         .frog-list {
-            padding: 16px 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .frog-item {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            padding: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            gap: 16px;
+            padding: 18px 20px;
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
             transition: var(--transition);
             cursor: pointer;
             position: relative;
         }
 
         .frog-item:hover {
-            border-color: var(--frog-green);
-            background: var(--bg-card-hover);
+            border-color: var(--wood);
+            box-shadow: var(--shadow-soft);
         }
 
         .frog-item.done {
-            opacity: 0.5;
+            background: var(--paper);
+            opacity: 0.7;
         }
 
         .frog-item.done .frog-text {
             text-decoration: line-through;
-            color: var(--text-muted);
+            color: var(--ink-muted);
         }
 
         .frog-rank {
             flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 500;
+            font-size: 12px;
+            color: var(--wood-deep);
+            border: 1px solid var(--wood-light);
+            background: var(--paper);
         }
 
-        .frog-rank.r1 { background: var(--frog-red-soft); color: var(--frog-red); border: 2px solid var(--frog-red); }
-        .frog-rank.r2 { background: var(--accent-soft); color: var(--accent); border: 2px solid var(--accent); }
-        .frog-rank.r3 { background: var(--blue-soft); color: var(--blue); border: 2px solid var(--blue); }
+        .frog-rank.r1 { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+        .frog-rank.r2 { color: var(--wood-deep); border-color: var(--wood-light); }
+        .frog-rank.r3 { color: var(--success); border-color: var(--success); background: var(--success-soft); }
 
         .frog-content {
             flex: 1;
@@ -368,24 +387,25 @@
             width: 100%;
             background: transparent;
             border: none;
-            color: var(--text);
+            color: var(--ink);
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 400;
             outline: none;
             padding: 2px 0;
+            font-family: inherit;
         }
 
         .frog-input::placeholder {
-            color: var(--text-muted);
+            color: var(--ink-muted);
         }
 
         .frog-meta {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-top: 6px;
-            font-size: 12px;
-            color: var(--text-muted);
+            gap: 14px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--ink-muted);
         }
 
         .frog-tag {
@@ -393,55 +413,60 @@
             align-items: center;
             gap: 4px;
             padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
-        .frog-tag.ugly { background: var(--frog-red-soft); color: var(--frog-red); }
-        .frog-tag.big { background: var(--accent-soft); color: var(--accent); }
-        .frog-tag.value { background: var(--frog-green-soft); color: var(--frog-green); }
+        .frog-tag.ugly { background: var(--accent-soft); color: var(--accent); }
+        .frog-tag.big { background: rgba(196, 167, 125, 0.15); color: var(--wood-deep); }
+        .frog-tag.value { background: var(--success-soft); color: var(--success); }
 
         .frog-time-input {
-            width: 50px;
-            background: var(--border);
-            border: 1px solid var(--border-light);
-            border-radius: 4px;
-            color: var(--text);
+            width: 46px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            color: var(--ink);
             padding: 2px 6px;
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .frog-time-input:focus {
+            border-color: var(--wood);
         }
 
         .frog-check {
             flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--border-light);
-            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            border: 1px solid var(--line-dark);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .frog-check:hover {
-            border-color: var(--frog-green);
+            border-color: var(--wood);
         }
 
         .frog-item.done .frog-check {
-            background: var(--frog-green);
-            border-color: var(--frog-green);
+            background: var(--wood-deep);
+            border-color: var(--wood-deep);
         }
 
         .frog-check svg {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             opacity: 0;
             transition: var(--transition);
-            color: white;
+            color: var(--white);
         }
 
         .frog-item.done .frog-check svg {
@@ -452,82 +477,86 @@
         .task-input-row {
             display: flex;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .task-input {
             flex: 1;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
             padding: 10px 14px;
-            color: var(--text);
+            color: var(--ink);
             font-size: 14px;
             outline: none;
             transition: var(--transition);
+            font-family: inherit;
         }
 
         .task-input:focus {
-            border-color: var(--accent);
+            border-color: var(--wood);
+            background: var(--white);
         }
 
         .task-input::placeholder {
-            color: var(--text-muted);
+            color: var(--ink-muted);
         }
 
         .priority-select {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
             padding: 10px 12px;
-            color: var(--text);
-            font-size: 14px;
+            color: var(--ink);
+            font-size: 13px;
             cursor: pointer;
             outline: none;
+            font-family: inherit;
         }
 
         .btn-add {
-            padding: 10px 18px;
-            background: var(--accent);
-            color: #000;
+            padding: 10px 20px;
+            background: var(--wood-deep);
+            color: var(--white);
             border: none;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
+            border-radius: var(--radius);
+            font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
         }
 
         .btn-add:hover {
-            background: var(--accent-hover);
+            background: var(--accent);
         }
 
         .task-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 400px;
+            max-height: 380px;
             overflow-y: auto;
         }
 
         .task-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 10px 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
             transition: var(--transition);
         }
 
         .task-item:hover {
-            border-color: var(--border-light);
-            background: var(--bg-card-hover);
+            border-color: var(--wood);
         }
 
         .task-item.done {
-            opacity: 0.4;
+            opacity: 0.5;
+            background: var(--paper);
         }
 
         .task-item.done .task-text {
@@ -536,10 +565,9 @@
 
         .task-check {
             flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-light);
-            border-radius: 6px;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--line-dark);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -548,14 +576,14 @@
         }
 
         .task-item.done .task-check {
-            background: var(--accent);
-            border-color: var(--accent);
+            background: var(--wood-deep);
+            border-color: var(--wood-deep);
         }
 
         .task-check svg {
-            width: 12px;
-            height: 12px;
-            color: #000;
+            width: 11px;
+            height: 11px;
+            color: var(--white);
             opacity: 0;
         }
 
@@ -565,44 +593,41 @@
 
         .task-priority {
             flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        .task-priority.A { background: var(--frog-red-soft); color: var(--frog-red); }
-        .task-priority.B { background: var(--accent-soft); color: var(--accent); }
-        .task-priority.C { background: var(--blue-soft); color: var(--blue); }
-        .task-priority.D { background: var(--purple-soft); color: var(--purple); }
-        .task-priority.E { background: var(--border); color: var(--text-muted); }
+        .task-priority.A { color: var(--accent); background: var(--accent-soft); }
+        .task-priority.B { color: var(--wood-deep); background: rgba(196, 167, 125, 0.15); }
+        .task-priority.C { color: var(--success); background: var(--success-soft); }
+        .task-priority.D { color: var(--warm-gray); background: rgba(138, 127, 114, 0.1); }
+        .task-priority.E { color: var(--ink-muted); background: var(--paper); }
 
         .task-text {
             flex: 1;
             font-size: 14px;
-            color: var(--text);
+            color: var(--ink);
             outline: none;
         }
 
         .task-text[contenteditable="true"] {
-            background: var(--bg-card-hover);
+            background: var(--paper);
             padding: 2px 6px;
-            border-radius: 4px;
         }
 
         .task-delete {
             flex-shrink: 0;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border: none;
             background: transparent;
-            color: var(--text-muted);
+            color: var(--ink-muted);
             cursor: pointer;
-            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -615,14 +640,13 @@
         }
 
         .task-delete:hover {
-            background: var(--frog-red-soft);
-            color: var(--frog-red);
+            color: var(--accent);
         }
 
         .task-empty {
             text-align: center;
-            padding: 24px;
-            color: var(--text-muted);
+            padding: 28px;
+            color: var(--ink-muted);
             font-size: 13px;
         }
 
@@ -630,68 +654,76 @@
         .timeblocks {
             display: flex;
             flex-direction: column;
-            gap: 4px;
         }
 
         .timeblock {
             display: grid;
-            grid-template-columns: 70px 1fr auto;
+            grid-template-columns: 66px 1fr;
             gap: 12px;
-            align-items: center;
+            align-items: start;
             padding: 10px 12px;
-            border-radius: var(--radius-sm);
+            border-bottom: 1px solid var(--line);
             transition: var(--transition);
-            border-left: 3px solid transparent;
         }
 
-        .timeblock.morning { background: rgba(245, 158, 11, 0.06); border-left-color: var(--accent); }
-        .timeblock.focus { background: rgba(16, 185, 129, 0.06); border-left-color: var(--frog-green); }
-        .timeblock.afternoon { background: rgba(59, 130, 246, 0.06); border-left-color: var(--blue); }
-        .timeblock.evening { background: rgba(139, 92, 246, 0.06); border-left-color: var(--purple); }
+        .timeblock:last-child {
+            border-bottom: none;
+        }
+
+        .timeblock:hover {
+            background: var(--paper);
+        }
 
         .timeblock-time {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--ink-muted);
+            letter-spacing: 0.5px;
+            padding-top: 2px;
         }
 
         .timeblock-label {
             font-size: 13px;
-            color: var(--text);
+            color: var(--ink);
+            font-weight: 500;
         }
 
         .timeblock-label .desc {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--ink-muted);
+            font-weight: 400;
         }
 
         .timeblock-input {
             width: 100%;
             background: transparent;
-            border: 1px dashed var(--border-light);
-            border-radius: 4px;
-            padding: 4px 8px;
-            color: var(--text);
-            font-size: 13px;
+            border: none;
+            border-bottom: 1px dashed var(--line);
+            border-radius: 0;
+            padding: 2px 0;
+            margin-top: 4px;
+            color: var(--ink-light);
+            font-size: 12px;
             outline: none;
             transition: var(--transition);
+            font-family: inherit;
         }
 
         .timeblock-input:focus {
-            border-style: solid;
-            border-color: var(--accent);
-            background: var(--bg);
+            border-bottom-style: solid;
+            border-bottom-color: var(--wood);
+            color: var(--ink);
         }
 
         .timeblock-input::placeholder {
-            color: var(--text-muted);
+            color: var(--ink-muted);
         }
 
         /* ===== 晨间仪式 ===== */
         .ritual-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
+            gap: 12px;
         }
 
         .ritual-item {
@@ -699,29 +731,31 @@
             align-items: center;
             gap: 10px;
             padding: 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
             cursor: pointer;
             transition: var(--transition);
         }
 
         .ritual-item:hover {
-            border-color: var(--border-light);
-            background: var(--bg-card-hover);
+            border-color: var(--wood);
         }
 
         .ritual-item.done {
-            border-color: var(--accent);
-            background: var(--accent-soft);
+            background: var(--paper);
+            border-color: var(--wood);
+        }
+
+        .ritual-item.done .ritual-text {
+            color: var(--wood-deep);
         }
 
         .ritual-check {
             flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-light);
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--line-dark);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -729,166 +763,181 @@
         }
 
         .ritual-item.done .ritual-check {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #000;
+            background: var(--wood-deep);
+            border-color: var(--wood-deep);
+        }
+
+        .ritual-check svg {
+            width: 11px;
+            height: 11px;
+            color: var(--white);
+            opacity: 0;
+        }
+
+        .ritual-item.done .ritual-check svg {
+            opacity: 1;
         }
 
         .ritual-text {
             font-size: 13px;
-            color: var(--text);
-        }
-
-        .ritual-item.done .ritual-text {
-            color: var(--accent);
-            font-weight: 500;
+            color: var(--ink);
         }
 
         /* ===== 晚间复盘 ===== */
         .review-section {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .review-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--ink-light);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
+            letter-spacing: 0.5px;
         }
 
         .review-textarea {
             width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            color: var(--text);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            color: var(--ink);
             font-size: 14px;
             font-family: inherit;
             outline: none;
             resize: vertical;
             min-height: 60px;
             transition: var(--transition);
+            line-height: 1.7;
         }
 
         .review-textarea:focus {
-            border-color: var(--purple);
+            border-color: var(--wood);
+            background: var(--white);
         }
 
         .review-textarea::placeholder {
-            color: var(--text-muted);
+            color: var(--ink-muted);
         }
 
         /* ===== 日记/感悟 ===== */
         .journal-textarea {
             width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            color: var(--text);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px;
+            color: var(--ink);
             font-size: 14px;
             font-family: inherit;
             outline: none;
             resize: vertical;
             min-height: 80px;
             transition: var(--transition);
+            line-height: 1.7;
         }
 
         .journal-textarea:focus {
-            border-color: var(--blue);
+            border-color: var(--wood);
         }
 
         /* ===== 能量追踪 ===== */
         .energy-track {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            gap: 16px;
+            padding: 14px;
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
         }
 
         .energy-label {
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 12px;
+            color: var(--ink-light);
             min-width: 60px;
+            letter-spacing: 0.5px;
         }
 
         .energy-slider {
             flex: 1;
             -webkit-appearance: none;
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
+            height: 3px;
+            background: var(--line);
             outline: none;
         }
 
         .energy-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            background: var(--purple);
-            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            background: var(--wood-deep);
             cursor: pointer;
             transition: var(--transition);
         }
 
         .energy-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
+            background: var(--accent);
         }
 
         .energy-value {
             font-size: 18px;
-            font-weight: 700;
-            color: var(--purple);
-            min-width: 40px;
+            font-weight: 300;
+            color: var(--wood-deep);
+            min-width: 36px;
             text-align: right;
+        }
+
+        .energy-tip {
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--ink-muted);
+            line-height: 1.7;
         }
 
         /* ===== 方法论提示 ===== */
         .tips-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2e 100%);
+            background: var(--paper-warm);
         }
 
         .tips-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .tip-item {
             display: flex;
-            gap: 10px;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--accent);
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.7;
+            gap: 12px;
+            padding: 12px;
+            background: var(--white);
+            border-radius: var(--radius);
+            border-left: 2px solid var(--wood);
+            font-size: 12px;
+            color: var(--ink-light);
+            line-height: 1.8;
         }
 
         .tip-item .tip-num {
             flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            background: var(--accent-soft);
-            color: var(--accent);
-            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--paper-deep);
+            color: var(--wood-deep);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 10px;
+            font-weight: 600;
         }
 
         .tip-item strong {
-            color: var(--text);
+            color: var(--ink);
+            font-weight: 500;
         }
 
         /* ===== 底部操作 ===== */
@@ -896,31 +945,32 @@
             display: flex;
             justify-content: center;
             gap: 12px;
-            padding: 20px 0;
+            padding: 24px 0;
         }
 
         .btn-export, .btn-reset {
             padding: 10px 24px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--bg-card);
-            color: var(--text-secondary);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--white);
+            color: var(--ink-light);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 6px;
+            font-family: inherit;
         }
 
         .btn-export:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: var(--wood);
+            color: var(--wood-deep);
         }
 
         .btn-reset:hover {
-            border-color: var(--frog-red);
-            color: var(--frog-red);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         /* ===== Toast ===== */
@@ -929,17 +979,17 @@
             bottom: 24px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-sm);
+            background: var(--ink);
+            border-radius: var(--radius);
             padding: 12px 24px;
-            color: var(--text);
-            font-size: 14px;
-            box-shadow: var(--shadow-lg);
+            color: var(--paper);
+            font-size: 13px;
+            box-shadow: var(--shadow-soft);
             z-index: 200;
             opacity: 0;
             transition: all 0.3s ease;
             pointer-events: none;
+            letter-spacing: 0.3px;
         }
 
         .toast.show {
@@ -947,14 +997,14 @@
             opacity: 1;
         }
 
-        .toast.success { border-left: 4px solid var(--frog-green); }
-        .toast.info { border-left: 4px solid var(--blue); }
+        .toast.success { border-left: 2px solid var(--wood); }
+        .toast.info { border-left: 2px solid var(--line); }
 
         /* ===== 模态框 ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(61, 50, 41, 0.5);
             z-index: 300;
             display: none;
             align-items: center;
@@ -967,39 +1017,53 @@
         }
 
         .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
+            background: var(--paper-warm);
+            border: 1px solid var(--line);
             border-radius: var(--radius);
-            max-width: 600px;
+            max-width: 560px;
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
-            padding: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow-soft);
         }
 
         .modal h2 {
-            font-size: 20px;
-            margin-bottom: 16px;
-            color: var(--text);
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--ink);
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .modal p {
-            font-size: 14px;
-            color: var(--text-secondary);
+            font-size: 13px;
+            color: var(--ink-light);
             margin-bottom: 12px;
-            line-height: 1.7;
+            line-height: 1.8;
+        }
+
+        .modal p strong {
+            color: var(--ink);
+            font-weight: 500;
         }
 
         .modal-close {
-            margin-top: 16px;
+            margin-top: 20px;
             padding: 10px 24px;
-            background: var(--accent);
-            color: #000;
+            background: var(--wood-deep);
+            color: var(--white);
             border: none;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
+            border-radius: var(--radius);
+            font-weight: 500;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
         }
 
         /* ===== 动画 ===== */
@@ -1014,12 +1078,14 @@
 
         /* ===== 响应式 ===== */
         @media (max-width: 600px) {
-            .container { padding: 16px; }
+            .container { padding: 20px 16px; gap: 24px; }
             .header-inner { flex-direction: column; align-items: flex-start; }
             .header-right { width: 100%; justify-content: space-between; }
             .stat-card .value { font-size: 24px; }
-            .timeblock { grid-template-columns: 60px 1fr; }
-            .timeblock-input { grid-column: 1 / -1; }
+            .timeblock { grid-template-columns: 56px 1fr; }
+            .card-body { padding: 18px; }
+            .frog-list { padding: 18px; }
+            .ritual-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -1197,7 +1263,7 @@
                             <input type="range" class="energy-slider" id="energySlider" min="1" max="10" value="7" oninput="updateEnergy(this.value)">
                             <span class="energy-value" id="energyDisplay">7</span>
                         </div>
-                        <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+                        <div class="energy-tip">
                             💡 <strong>精力管理贴士</strong>：上午9-11点是大脑黄金期，安排青蛙任务；下午2-4点精力低谷，处理机械性工作；晚上用于学习与复盘。
                         </div>
                     </div>
@@ -1434,7 +1500,7 @@
                                 oninput="updateFrog(${i}, 'estTime', parseInt(this.value)||0)"
                                 ${frog.done ? 'disabled' : ''}>
                             <span>分钟</span>
-                            ${frog.done ? '<span style="color: var(--frog-green); font-weight: 600;">✓ 已吃掉!</span>' : ''}
+                            ${frog.done ? '<span style="color: var(--success); font-weight: 600;">✓ 已吃掉!</span>' : ''}
                         </div>
                     </div>
                     <div class="frog-check" onclick="toggleFrog(${i})">
