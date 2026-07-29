@@ -18,14 +18,14 @@
             /* iPhone 17 Pro 浅色模式 */
             --bg: #f2f3f7;
             --bg-elevated: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.72);
+            --bg-card: rgba(255, 255, 255, 0.95);
             --bg-card-solid: #ffffff;
-            --bg-card-hover: rgba(255, 255, 255, 0.88);
-            --border: rgba(0, 0, 0, 0.08);
+            --bg-card-hover: #ffffff;
+            --border: rgba(0, 0, 0, 0.06);
             --border-light: rgba(0, 0, 0, 0.12);
             --text: #000000;
-            --text-secondary: rgba(0, 0, 0, 0.6);
-            --text-muted: rgba(0, 0, 0, 0.35);
+            --text-secondary: rgba(0, 0, 0, 0.7);
+            --text-muted: rgba(0, 0, 0, 0.45);
             --accent: #0a84ff;
             --accent-soft: rgba(10, 132, 255, 0.1);
             --accent-hover: #0071e3;
@@ -44,7 +44,7 @@
             --radius-md: 18px;
             --radius-sm: 14px;
             --radius-xs: 10px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
             --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.05);
             --transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
             --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', sans-serif;
@@ -131,7 +131,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             padding: 6px 8px;
             border-radius: 100px;
             backdrop-filter: blur(20px);
@@ -166,7 +166,7 @@
             justify-content: center;
             width: 34px;
             height: 34px;
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(0, 0, 0, 0.05);
             border: none;
             border-radius: 50%;
             color: var(--text-secondary);
@@ -176,7 +176,7 @@
         }
 
         .btn-nav:hover {
-            background: rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.1);
             color: #ffffff;
         }
 
@@ -214,7 +214,7 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid var(--border);
@@ -256,7 +256,7 @@
         .stat-card .progress-bar {
             margin-top: 12px;
             height: 4px;
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.07);
             border-radius: 2px;
             overflow: hidden;
         }
@@ -288,7 +288,7 @@
 
         /* ===== 卡片基础 ===== */
         .card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid var(--border);
@@ -304,7 +304,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            background: rgba(0, 0, 0, 0.015);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .card-title {
@@ -333,7 +333,7 @@
         /* ===== 青蛙任务区 ===== */
         .frog-card {
             grid-column: 1 / -1;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.65) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 100%);
             border: 1px solid var(--border);
             border-top: 2px solid rgba(48, 209, 88, 0.5);
         }
@@ -345,7 +345,7 @@
 
         .frog-intro {
             padding: 14px 22px;
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(0, 0, 0, 0.06);
             font-size: 13px;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border);
@@ -371,7 +371,7 @@
             align-items: flex-start;
             gap: 14px;
             padding: 18px 20px;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             transition: var(--transition);
@@ -379,7 +379,7 @@
         }
 
         .frog-item:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.07);
             border-color: var(--border-light);
             transform: scale(1.005);
         }
@@ -458,7 +458,7 @@
 
         .frog-time-input {
             width: 50px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             border: 1px solid var(--border);
             border-radius: 6px;
             color: #ffffff;
@@ -517,7 +517,7 @@
 
         .task-input {
             flex: 1;
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(0, 0, 0, 0.06);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px 16px;
@@ -530,7 +530,7 @@
 
         .task-input:focus {
             border-color: var(--accent);
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.07);
         }
 
         .task-input::placeholder {
@@ -538,7 +538,7 @@
         }
 
         .priority-select {
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(0, 0, 0, 0.06);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px 14px;
@@ -583,14 +583,14 @@
             align-items: center;
             gap: 12px;
             padding: 12px 14px;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border);
             border-radius: 14px;
             transition: var(--transition);
         }
 
         .task-item:hover {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             border-color: var(--border-light);
         }
 
@@ -646,8 +646,8 @@
         .task-priority.A { background: var(--frog-red-soft); color: var(--frog-red); }
         .task-priority.B { background: var(--orange-soft); color: var(--orange); }
         .task-priority.C { background: var(--blue-soft); color: var(--blue); }
-        .task-priority.D { background: rgba(0, 0, 0, 0.05); color: var(--titanium); }
-        .task-priority.E { background: rgba(0, 0, 0, 0.04); color: var(--text-muted); }
+        .task-priority.D { background: rgba(0, 0, 0, 0.07); color: var(--titanium); }
+        .task-priority.E { background: rgba(0, 0, 0, 0.06); color: var(--text-muted); }
 
         .task-text {
             flex: 1;
@@ -657,7 +657,7 @@
         }
 
         .task-text[contenteditable="true"] {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             padding: 2px 8px;
             border-radius: 6px;
         }
@@ -709,11 +709,11 @@
             padding: 12px;
             border-radius: 14px;
             transition: var(--transition);
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(0, 0, 0, 0.06);
         }
 
         .timeblock:hover {
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(0, 0, 0, 0.06);
         }
 
         .timeblock-time {
@@ -738,7 +738,7 @@
 
         .timeblock-input {
             width: 100%;
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(0, 0, 0, 0.06);
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 6px 10px;
@@ -753,7 +753,7 @@
 
         .timeblock-input:focus {
             border-color: var(--accent);
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.07);
         }
 
         .timeblock-input::placeholder {
@@ -772,7 +772,7 @@
             align-items: center;
             gap: 10px;
             padding: 14px;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border);
             border-radius: 14px;
             cursor: pointer;
@@ -780,7 +780,7 @@
         }
 
         .ritual-item:hover {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             border-color: var(--border-light);
         }
 
@@ -845,7 +845,7 @@
 
         .review-textarea {
             width: 100%;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 14px;
@@ -861,7 +861,7 @@
 
         .review-textarea:focus {
             border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .review-textarea::placeholder {
@@ -871,7 +871,7 @@
         /* ===== 日记/感悟 ===== */
         .journal-textarea {
             width: 100%;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 16px;
@@ -887,7 +887,7 @@
 
         .journal-textarea:focus {
             border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         /* ===== 能量追踪 ===== */
@@ -896,7 +896,7 @@
             align-items: center;
             gap: 16px;
             padding: 16px;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border);
             border-radius: 14px;
         }
@@ -912,7 +912,7 @@
             flex: 1;
             -webkit-appearance: none;
             height: 6px;
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.07);
             border-radius: 3px;
             outline: none;
         }
@@ -949,7 +949,7 @@
 
         /* ===== 方法论提示 ===== */
         .tips-card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
         }
 
         .tips-list {
@@ -962,7 +962,7 @@
             display: flex;
             gap: 12px;
             padding: 14px;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07);
             border-radius: 14px;
             border-left: 3px solid var(--accent);
             font-size: 13px;
@@ -1001,7 +1001,7 @@
             padding: 12px 24px;
             border: 1px solid var(--border);
             border-radius: 100px;
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(0, 0, 0, 0.06);
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 14px;
@@ -1073,7 +1073,7 @@
         }
 
         .modal {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
             border-radius: var(--radius);
