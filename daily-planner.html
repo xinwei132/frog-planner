@@ -1101,23 +1101,21 @@
                 </div>
             </div>
             <div class="header-right">
-                <button class="btn-nav" onclick="changeDate(-1)">
+                <button class="btn-nav" onclick="changeDate(-1)" title="前一天">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
                 <div class="date-display">
                     <span class="day" id="currentDate">--</span>
                     <span class="meta" id="currentWeek">--</span>
                 </div>
-                <button class="btn-nav" onclick="changeDate(1)">
+                <button class="btn-nav" onclick="changeDate(1)" title="后一天">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
                 <button class="btn-nav" onclick="goToday()" title="回到今天">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    今天
                 </button>
-                <button class="btn-nav" onclick="showGuide()">
+                <button class="btn-nav" onclick="showGuide()" title="使用指南">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    使用指南
                 </button>
             </div>
         </div>
