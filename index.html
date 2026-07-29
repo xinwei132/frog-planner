@@ -682,14 +682,18 @@
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 6px 10px;
+            padding: 8px 10px;
             margin-top: 6px;
             color: var(--text);
             font-size: 13px;
             outline: none;
             transition: var(--transition);
             font-family: inherit;
-            min-height: 32px;
+            line-height: 1.5;
+            resize: none;
+            overflow: hidden;
+            box-sizing: border-box;
+            display: block;
         }
 
         .timeblock-input:focus {
@@ -1350,6 +1354,11 @@
         ];
 
         // ===== 工具函数 =====
+        function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        }
+
         function formatDate(d) {
             const y = d.getFullYear();
             const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -1550,13 +1559,15 @@
                     <div class="timeblock-time">${block.time}</div>
                     <div>
                         <div class="timeblock-label">${block.label}<div class="desc">${block.desc}</div></div>
+                        <textarea class="timeblock-input" rows="1"
+                            placeholder="这段时间做什么？"
+                            oninput="autoResize(this); updateTimeblock(${i}, this.value)">${escapeHtml(block.task || '')}</textarea>
                     </div>
-                    <input type="text" class="timeblock-input" value="${escapeHtml(block.task || '')}"
-                        placeholder="安排具体任务..."
-                        oninput="updateTimeblock(${i}, this.value)">
                 `;
                 container.appendChild(el);
             });
+            // 渲染后自动撑高所有 textarea
+            container.querySelectorAll('.timeblock-input').forEach(autoResize);
         }
 
         function renderReview() {
