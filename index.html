@@ -185,6 +185,26 @@
             stroke-width: 2;
         }
 
+        /* 复制昨日按钮 — 突出显示 */
+        .btn-copy-yesterday {
+            background: linear-gradient(135deg, #0a84ff, #5e5ce6);
+            color: #fff;
+            font-size: 16px;
+        }
+        .btn-copy-yesterday:hover {
+            background: linear-gradient(135deg, #0071e3, #4a48c5);
+            color: #fff;
+        }
+        .btn-copy-yesterday .copy-icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+        /* 小屏幕下的紧凑模式 */
+        @media (max-width: 480px) {
+            .header-title .sub { display: none; }
+            .btn-nav { width: 32px; height: 32px; }
+        }
+
         /* ===== 主容器 ===== */
         .container {
             max-width: 1100px;
@@ -1096,6 +1116,9 @@
                 <button class="btn-nav" onclick="showGuide()" title="使用指南">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                 </button>
+                <button class="btn-nav btn-copy-yesterday" onclick="copyFromYesterday()" title="复制昨日计划">
+                    <span class="copy-icon">📋</span>
+                </button>
             </div>
         </div>
     </header>
@@ -1436,6 +1459,68 @@
 
         function saveData() {
             localStorage.setItem('frogPlannerData', JSON.stringify(appData));
+        }
+
+        // ===== 复制昨日计划 =====
+        function copyFromYesterday() {
+            // 计算昨日日期字符串
+            const yesterday = new Date(currentDate);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+            const yesterdayData = appData[yStr];
+
+            // 检查当前日期是否已有数据
+            const todayData = appData[currentDateStr];
+            const todayHasContent = todayData && (
+                (todayData.frogs && todayData.frogs.some(f => f.text && f.text.trim())) ||
+                (todayData.tasks && todayData.tasks.length > 0) ||
+                (todayData.timeblocks && todayData.timeblocks.some(t => t.task && t.task.trim()))
+            );
+
+            if (!yesterdayData) {
+                showToast('昨日还没有计划，无法复制', 'error');
+                return;
+            }
+
+            // 检查昨日是否有可复制的内容
+            const yHasFrogs = yesterdayData.frogs && yesterdayData.frogs.some(f => f.text && f.text.trim());
+            const yHasTasks = yesterdayData.tasks && yesterdayData.tasks.length > 0;
+            const yHasTimeblocks = yesterdayData.timeblocks && yesterdayData.timeblocks.some(t => t.task && t.task.trim());
+
+            if (!yHasFrogs && !yHasTasks && !yHasTimeblocks) {
+                showToast('昨日计划是空的，没有内容可复制', 'error');
+                return;
+            }
+
+            // 二次确认（如果今天已有内容）
+            if (todayHasContent) {
+                if (!confirm('今天已有计划内容，复制将覆盖当前的任务和时间块安排（不复盘和日记），是否继续？')) {
+                    return;
+                }
+            }
+
+            // 深拷贝昨日的计划数据（不复制复盘和日记）
+            const newFrogs = JSON.parse(JSON.stringify(yesterdayData.frogs || []))
+                .map(f => ({ ...f, done: false })); // 重置完成状态
+
+            const newTasks = JSON.parse(JSON.stringify(yesterdayData.tasks || []))
+                .map(t => ({ ...t, done: false })); // 重置完成状态
+
+            const newTimeblocks = JSON.parse(JSON.stringify(yesterdayData.timeblocks || []))
+                .map(t => ({ ...t })); // 保留时间块安排
+
+            const newRituals = JSON.parse(JSON.stringify(yesterdayData.rituals || []))
+                .map(r => ({ ...r, done: false })); // 重置仪式完成状态
+
+            // 应用到今天
+            appData[currentDateStr].frogs = newFrogs;
+            appData[currentDateStr].tasks = newTasks;
+            appData[currentDateStr].timeblocks = newTimeblocks;
+            appData[currentDateStr].rituals = newRituals;
+
+            saveData();
+            renderAll();
+            showToast(`已复制昨日计划（${newFrogs.filter(f => f.text).length}青蛙 + ${newTasks.length}任务 + ${newTimeblocks.filter(t => t.task).length}时间块）`, 'success');
         }
 
         // ===== 渲染 =====
