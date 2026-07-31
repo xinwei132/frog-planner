@@ -1116,7 +1116,7 @@
                 <button class="btn-nav" onclick="showGuide()" title="使用指南">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                 </button>
-                <button class="btn-nav btn-copy-yesterday" onclick="copyFromYesterday()" title="复制昨日计划">
+                <button class="btn-nav btn-copy-yesterday" onclick="openPlanLibrary()" title="从其他日期复制计划">
                     <span class="copy-icon">📋</span>
                 </button>
             </div>
@@ -1461,58 +1461,122 @@
             localStorage.setItem('frogPlannerData', JSON.stringify(appData));
         }
 
-        // ===== 复制昨日计划 =====
-        function copyFromYesterday() {
-            // 计算昨日日期字符串
-            const yesterday = new Date(currentDate);
-            yesterday.setDate(yesterday.getDate() - 1);
-            const yStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
-            const yesterdayData = appData[yStr];
+        // ===== 计划库：从任意日期复制计划 =====
+        function hasPlanContent(day) {
+            if (!day) return false;
+            return (day.frogs && day.frogs.some(f => f.text && f.text.trim())) ||
+                   (day.tasks && day.tasks.length > 0) ||
+                   (day.timeblocks && day.timeblocks.some(t => t.task && t.task.trim()));
+        }
 
-            // 检查当前日期是否已有数据
-            const todayData = appData[currentDateStr];
-            const todayHasContent = todayData && (
-                (todayData.frogs && todayData.frogs.some(f => f.text && f.text.trim())) ||
-                (todayData.tasks && todayData.tasks.length > 0) ||
-                (todayData.timeblocks && todayData.timeblocks.some(t => t.task && t.task.trim()))
-            );
+        function daySummary(day) {
+            if (!day) return '';
+            const frogs = (day.frogs || []).filter(f => f.text && f.text.trim()).length;
+            const tasks = (day.tasks || []).length;
+            const tbs = (day.timeblocks || []).filter(t => t.task && t.task.trim()).length;
+            return `${frogs}青蛙 · ${tasks}任务 · ${tbs}时间块`;
+        }
 
-            if (!yesterdayData) {
-                showToast('昨日还没有计划，无法复制', 'error');
+        function openPlanLibrary() {
+            // 收集所有有内容的日期
+            const dates = Object.keys(appData)
+                .filter(d => hasPlanContent(appData[d]))
+                .sort()
+                .reverse(); // 最近的在前
+
+            const overlay = document.getElementById('planLibraryModal');
+            const listEl = document.getElementById('planLibraryList');
+
+            if (dates.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;">还没有任何计划记录<br>先在某个日期填写计划后，就可以从这里复制了</div>';
+            } else {
+                listEl.innerHTML = dates.map(d => {
+                    const day = appData[d];
+                    const summary = daySummary(day);
+                    // 格式化日期显示
+                    const [y, m, dayNum] = d.split('-').map(Number);
+                    const date = new Date(y, m - 1, dayNum);
+                    const weekdays = ['日','一','二','三','四','五','六'];
+                    const todayStr = formatDate(new Date());
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yStr = formatDate(yesterday);
+                    let label = `${m}月${dayNum}日 周${weekdays[date.getDay()]}`;
+                    if (d === todayStr) label = `今天 · ${label}`;
+                    else if (d === yStr) label = `昨天 · ${label}`;
+
+                    // 预览前2个青蛙和前2个任务
+                    let preview = [];
+                    const frogsText = (day.frogs || []).filter(f => f.text && f.text.trim()).slice(0, 2).map(f => '🐸 ' + f.text);
+                    const tasksText = (day.tasks || []).slice(0, 2).map(t => '▸ ' + t.text);
+                    preview = [...frogsText, ...tasksText];
+                    const previewHtml = preview.length > 0
+                        ? preview.map(p => `<div style="font-size:12px;color:var(--text-muted);padding:2px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p}</div>`).join('')
+                        : '<div style="font-size:12px;color:var(--text-muted);">无内容</div>';
+
+                    return `
+                        <div class="plan-lib-item" onclick="copyPlanToDate('${d}')" style="
+                            background:var(--bg-input);
+                            border-radius:var(--radius-sm);
+                            padding:14px 16px;
+                            margin-bottom:10px;
+                            cursor:pointer;
+                            transition:var(--transition);
+                        " onmouseover="this.style.background='var(--bg-input-hover)'" onmouseout="this.style.background='var(--bg-input)'">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                                <div style="font-size:15px;font-weight:700;">${label}</div>
+                                <div style="font-size:12px;color:var(--accent);font-weight:600;background:var(--accent-soft);padding:3px 8px;border-radius:6px;">${summary}</div>
+                            </div>
+                            ${previewHtml}
+                            <div style="font-size:13px;color:var(--accent);font-weight:600;margin-top:8px;">点击复制到 ${formatDateDisplay(currentDate)} →</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            overlay.classList.add('show');
+        }
+
+        function formatDateDisplay(date) {
+            const m = date.getMonth() + 1;
+            const d = date.getDate();
+            const weekdays = ['日','一','二','三','四','五','六'];
+            return `${m}月${d}日 周${weekdays[date.getDay()]}`;
+        }
+
+        function closePlanLibrary() {
+            document.getElementById('planLibraryModal').classList.remove('show');
+        }
+
+        function copyPlanToDate(sourceDateStr) {
+            const sourceData = appData[sourceDateStr];
+            if (!sourceData) {
+                showToast('该日期没有计划数据', 'error');
+                return;
+            }
+            if (!hasPlanContent(sourceData)) {
+                showToast('该日期计划是空的', 'error');
                 return;
             }
 
-            // 检查昨日是否有可复制的内容
-            const yHasFrogs = yesterdayData.frogs && yesterdayData.frogs.some(f => f.text && f.text.trim());
-            const yHasTasks = yesterdayData.tasks && yesterdayData.tasks.length > 0;
-            const yHasTimeblocks = yesterdayData.timeblocks && yesterdayData.timeblocks.some(t => t.task && t.task.trim());
-
-            if (!yHasFrogs && !yHasTasks && !yHasTimeblocks) {
-                showToast('昨日计划是空的，没有内容可复制', 'error');
-                return;
-            }
-
-            // 二次确认（如果今天已有内容）
+            // 检查今天是否已有内容
+            const todayHasContent = hasPlanContent(appData[currentDateStr]);
             if (todayHasContent) {
-                if (!confirm('今天已有计划内容，复制将覆盖当前的任务和时间块安排（不复盘和日记），是否继续？')) {
+                if (!confirm(`确定将 ${sourceDateStr} 的计划覆盖到今天吗？\n（今天的青蛙、任务、时间块将被替换，复盘和日记保留）`)) {
                     return;
                 }
             }
 
-            // 深拷贝昨日的计划数据（不复制复盘和日记）
-            const newFrogs = JSON.parse(JSON.stringify(yesterdayData.frogs || []))
-                .map(f => ({ ...f, done: false })); // 重置完成状态
+            // 深拷贝
+            const newFrogs = JSON.parse(JSON.stringify(sourceData.frogs || []))
+                .map(f => ({ ...f, done: false }));
+            const newTasks = JSON.parse(JSON.stringify(sourceData.tasks || []))
+                .map(t => ({ ...t, done: false }));
+            const newTimeblocks = JSON.parse(JSON.stringify(sourceData.timeblocks || []))
+                .map(t => ({ ...t }));
+            const newRituals = JSON.parse(JSON.stringify(sourceData.rituals || []))
+                .map(r => ({ ...r, done: false }));
 
-            const newTasks = JSON.parse(JSON.stringify(yesterdayData.tasks || []))
-                .map(t => ({ ...t, done: false })); // 重置完成状态
-
-            const newTimeblocks = JSON.parse(JSON.stringify(yesterdayData.timeblocks || []))
-                .map(t => ({ ...t })); // 保留时间块安排
-
-            const newRituals = JSON.parse(JSON.stringify(yesterdayData.rituals || []))
-                .map(r => ({ ...r, done: false })); // 重置仪式完成状态
-
-            // 应用到今天
             appData[currentDateStr].frogs = newFrogs;
             appData[currentDateStr].tasks = newTasks;
             appData[currentDateStr].timeblocks = newTimeblocks;
@@ -1520,7 +1584,20 @@
 
             saveData();
             renderAll();
-            showToast(`已复制昨日计划（${newFrogs.filter(f => f.text).length}青蛙 + ${newTasks.length}任务 + ${newTimeblocks.filter(t => t.task).length}时间块）`, 'success');
+            closePlanLibrary();
+            showToast(`已复制 ${sourceDateStr} 的计划到今天`, 'success');
+        }
+
+        // 兼容：保留旧的 copyFromYesterday 调用
+        function copyFromYesterday() {
+            const yesterday = new Date(currentDate);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yStr = formatDate(yesterday);
+            if (!appData[yStr] || !hasPlanContent(appData[yStr])) {
+                showToast('昨日还没有计划，无法复制', 'error');
+                return;
+            }
+            copyPlanToDate(yStr);
         }
 
         // ===== 渲染 =====
@@ -1966,5 +2043,18 @@
             });
         }
     </script>
+
+    <!-- 计划库弹窗 -->
+    <div class="modal-overlay" id="planLibraryModal" onclick="if(event.target===this)closePlanLibrary()">
+        <div class="modal" style="max-width:520px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h2 style="margin:0;">📋 计划库</h2>
+                <button onclick="closePlanLibrary()" style="width:32px;height:32px;border-radius:50%;border:none;background:var(--bg-input);font-size:16px;cursor:pointer;color:var(--text-secondary);">✕</button>
+            </div>
+            <p style="margin-bottom:16px;">点击任意日期的计划，一键复制到 <strong style="color:var(--accent);" id="planLibTargetDate">今天</strong></p>
+            <div id="planLibraryList"></div>
+        </div>
+    </div>
+
 </body>
 </html>
